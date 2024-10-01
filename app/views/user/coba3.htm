@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Carousel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        /* Styling for carousel */
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            flex: 0 0 auto;
+            width: 300px; /* Width of each card */
+            margin: 0 10px; /* Margin between cards */
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .carousel-button.prev {
+            left: 10px;
+        }
+
+        .carousel-button.next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="carousel-container">
+                <button class="carousel-button prev">‹</button>
+                <div class="carousel-track">
+                    <!-- Card 1 -->
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="https://via.placeholder.com/300x200" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <p class="title is-4">Card 1</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="https://via.placeholder.com/300x200" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <p class="title is-4">Card 2</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="https://via.placeholder.com/300x200" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <p class="title is-4">Card 3</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="carousel-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="https://via.placeholder.com/300x200" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <p class="title is-4">Card 4</p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-button next">›</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const track = document.querySelector('.carousel-track');
+        const items = document.querySelectorAll('.carousel-item');
+        const nextButton = document.querySelector('.carousel-button.next');
+        const prevButton = document.querySelector('.carousel-button.prev');
+        
+        let currentIndex = 0;
+        
+        function updateCarousel() {
+            const itemWidth = items[0].getBoundingClientRect().width;
+            track.style.transform = `translateX(-${currentIndex * (itemWidth + 20)}px)`;
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentIndex < items.length - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+    </script>
+</body>
+</html>

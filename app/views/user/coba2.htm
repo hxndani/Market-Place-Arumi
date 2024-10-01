@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variant Selector</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        /* Custom CSS */
+        .variant-item {
+            position: relative;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .variant-item img {
+            border-radius: 8px;
+        }
+
+        .variant-item.selected {
+            border-color: orange;
+        }
+
+        .variant-item.selected::after {
+            content: '\2713'; /* Checkmark */
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: orange;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <label class="label">Variant:</label>
+            <div class="columns is-multiline is-mobile">
+                <!-- Varian 1 -->
+                <div class="column is-narrow">
+                    <div class="variant-item selected">
+                        <figure class="image is-64x64">
+                            <img src="{{@BASE}}/public/images/2.jpg" alt="Varian 1">
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Varian 2 -->
+                <div class="column is-narrow">
+                    <div class="variant-item">
+                        <figure class="image is-64x64">
+                            <img src="https://via.placeholder.com/64x64/ffd700" alt="Varian 2">
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Varian 3 -->
+                <div class="column is-narrow">
+                    <div class="variant-item">
+                        <figure class="image is-64x64">
+                            <img src="https://via.placeholder.com/64x64/cccccc" alt="Varian 3">
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Varian 4 -->
+                <div class="column is-narrow">
+                    <div class="variant-item">
+                        <figure class="image is-64x64">
+                            <img src="https://via.placeholder.com/64x64/a9a9a9" alt="Varian 4">
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Varian 5 -->
+                <div class="column is-narrow">
+                    <div class="variant-item">
+                        <figure class="image is-64x64">
+                            <img src="https://via.placeholder.com/64x64/b5651d" alt="Varian 5">
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Varian 6 -->
+                <div class="column is-narrow">
+                    <div class="variant-item">
+                        <figure class="image is-64x64">
+                            <img src="https://via.placeholder.com/64x64/000000" alt="Varian 6">
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Varian 7 -->
+                <div class="column is-narrow">
+                    <div class="variant-item">
+                        <figure class="image is-64x64">
+                            <img src="https://via.placeholder.com/64x64/708090" alt="Varian 7">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script to handle variant selection -->
+    <script>
+        document.querySelectorAll('.variant-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.variant-item').forEach(el => el.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+
+    <style>
+        .chat-window {
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f5f5f5;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #f14668;
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header .icofont-close {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .chat-body {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #e6f7ff;
+        }
+
+        .chat-body img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .chat-body p {
+            color: #888;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .chat-footer input {
+            width: 100%;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f14668;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Chat Button -->
+    <div class="chat-button" id="chatButton">
+        <i class="icofont-ui-chat"></i>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span><i class="icofont-ui-message"></i> Chat</span>
+            <i class="icofont-close" id="closeChat"></i>
+        </div>
+        <div class="chat-body">
+            <img src="https://via.placeholder.com/100" alt="Chat Icon">
+            <p>Selamat Datang di Chat Arumi</p>
+            <p>Pencarian Tidak Ditemukan</p>
+        </div>
+        <div class="chat-footer">
+            <input type="text" placeholder="Cari" id="searchChat">
+        </div>
+    </div>
+
+    <script>
+        // Tampilkan atau sembunyikan jendela chat
+        document.getElementById('chatButton').addEventListener('click', function () {
+            document.getElementById('chatWindow').style.display = 'flex';
+            this.style.display = 'none';
+        });
+
+        document.getElementById('closeChat').addEventListener('click', function () {
+            document.getElementById('chatWindow').style.display = 'none';
+            document.getElementById('chatButton').style.display = 'flex';
+        });
+    </script>
+
+</body>

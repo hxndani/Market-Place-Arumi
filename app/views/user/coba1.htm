@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philips Official Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" rel="stylesheet">
+    <style>
+        .header {
+            background-color: orange;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .voucher-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .countdown {
+            background-color: #ff6600;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .shopping-item {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .button-claim {
+            background-color: #ff0000;
+            color: white;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .is-flex-centered {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1 class="title is-5">Philips Official Shop</h1>
+        <p class="subtitle is-6">4.9/5.0 | 618,1RB Pengikut</p>
+    </div>
+
+    <!-- Vouchers -->
+    <div class="container">
+        <div class="columns is-multiline is-mobile is-flex-centered">
+            <div class="column is-half-mobile">
+                <div class="voucher-card">
+                    <p class="has-text-weight-semibold">Diskon 2%</p>
+                    <p>Min. Belanja Rp275RB Diskon s/d Rp12RB</p>
+                    <p class="is-size-7"><em>Voucher Pembelian Kedua</em></p>
+                    <button class="button-claim">Klaim</button>
+                </div>
+            </div>
+            <div class="column is-half-mobile">
+                <div class="voucher-card">
+                    <p class="has-text-weight-semibold">Diskon 7%</p>
+                    <p>Min. Belanja Rp1JT Diskon s/d Rp100RB</p>
+                    <button class="button-claim">Klaim</button>
+                </div>
+            </div>
+            <div class="column is-half-mobile">
+                <div class="voucher-card">
+                    <p class="has-text-weight-semibold">Diskon Rp10RB</p>
+                    <p>Min. Belanja Rp250RB</p>
+                    <p class="is-size-7"><em>Produk Tertentu</em></p>
+                    <button class="button-claim">Klaim</button>
+                </div>
+            </div>
+            <div class="column is-half-mobile">
+                <div class="voucher-card">
+                    <p class="has-text-weight-semibold">Diskon Rp30RB</p>
+                    <p>Min. Belanja Rp300RB</p>
+                    <p class="is-size-7"><em>Produk Tertentu</em></p>
+                    <button class="button-claim">Klaim</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Countdown -->
+        <div class="countdown">
+            <p class="is-size-6 has-text-weight-semibold">9.9 SUPER SHOPPING DAY</p>
+            <p class="is-size-7">Mulai dalam 2 Hari 15:10:09</p>
+        </div>
+
+        <!-- Product Promotion -->
+        <div class="shopping-item">
+            <p class="title is-6">Philips Couple Set- Hair Dryer BHD300/10 + Bodygroomer BG1024/16</p>
+            <p class="title is-5 has-text-danger">Rp675.300</p>
+            <button class="button is-danger is-fullwidth">Masukkan Keranjang</button>
+        </div>
+    </div>
+
+</body>
+</html>

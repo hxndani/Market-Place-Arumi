@@ -1,0 +1,160 @@
+            <div class="column">
+                <div class="box" style="margin-bottom: 0.2vh;">
+                    <div class="column is-flex">
+                        <div class="column">
+                            <p class="is-size-5 has-text-weight-semibold">Notifikasi Email</p>
+                            <p class="is-size-7 has-text-grey">Notifikasi tentang keamanan akun dan pengingat penting tidak dapat
+                                dinonaktifkan</p>
+                        </div>
+                        <div class="field level">
+                            <label class="switch">
+                                <input id="toggleEmail" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="emailSettings">
+                        <div class="column is-11 is-offset-1 is-flex">
+                            <div class="column">
+                                <p class="is-size-6 has-text-weight-medium">Status Pesanan</p>
+                                <p class="is-size-7 has-text-grey">Informasi terbaru dari status pesanan
+                                </p>
+                            </div>
+                            <div class="field level">
+                                <label class="switch">
+                                    <input id="email-status" type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="column is-11 is-offset-1 is-flex">
+                            <div class="column">
+                                <p class="is-size-6 has-text-weight-medium">Promosi</p>
+                                <p class="is-size-7 has-text-grey">Informasi eksklusif tentang promo dan penawaran yang akan datang
+                                </p>
+                            </div>
+                            <div class="field level">
+                                <label class="switch">
+                                    <input id="email-promosi" type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="column is-11 is-offset-1 is-flex">
+                            <div class="column">
+                                <p class="is-size-6 has-text-weight-medium">Survei Pembeli</p>
+                                <p class="is-size-7 has-text-grey">Terima survei untuk memberi penilaian dan saran untuk pelayanan
+                                    Arumi yang lebih baik</p>
+                            </div>
+                            <div class="field level">
+                                <label class="switch">
+                                    <input id="email-survei" type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notif SMS -->
+                <div class="box" style="margin-bottom: 0.2vh;">
+                    <div class="column is-flex">
+                        <div class="column">
+                            <p class="is-size-5 has-text-weight-semibold">Notifikasi SMS</p>
+                            <p class="is-size-7 has-text-grey">Notifikasi tentang keamanan akun dan pengingat penting tidak dapat
+                                dinonaktifkan</p>
+                        </div>
+                        <div class="field level">
+                            <label class="switch">
+                                <input id="toggleSMS" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="smsSettings">
+                        <div class="column is-11 is-offset-1 is-flex">
+                            <div class="column">
+                                <p class="is-size-6 has-text-weight-medium">Promosi</p>
+                                <p class="is-size-7 has-text-grey">Informasi eksklusif tentang promo dan penawaran yang akan datang
+                                </p>
+                            </div>
+                            <div class="field level">
+                                <label class="switch">
+                                    <input id="sms-promosi" type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notif WhatsApp -->
+                <div class="box" style="margin-bottom: 0.2vh;">
+                    <div class="column is-flex">
+                        <div class="column">
+                            <p class="is-size-5 has-text-weight-semibold">Notifikasi Whatsapp</p>
+                            <p class="is-size-7 has-text-grey">Notifikasi tentang keamanan akun dan pengingat penting tidak dapat
+                                dinonaktifkan</p>
+                        </div>
+                        <div class="field level">
+                            <label class="switch">
+                                <input id="toggleWA" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="waSettings">
+                        <div class="column is-11 is-offset-1 is-flex">
+                            <div class="column">
+                                <p class="is-size-6 has-text-weight-medium">Status Pesanan</p>
+                                <p class="is-size-7 has-text-grey">Informasi terbaru dari status pesanan</p>
+                            </div>
+                            <div class="field level">
+                                <label class="switch">
+                                    <input id="wa-status" type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="column is-11 is-offset-1 is-flex">
+                            <div class="column">
+                                <p class="is-size-6 has-text-weight-medium">Promosi</p>
+                                <p class="is-size-7 has-text-grey">Informasi eksklusif tentang promo dan penawaran yang akan datang
+                                </p>
+                            </div>
+                            <div class="field level">
+                                <label class="switch">
+                                    <input id="wa-promosi" type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleSettings(toggleId, settingsId) {
+        const toggle = document.getElementById(toggleId);
+        const settings = document.getElementById(settingsId);
+
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                settings.classList.remove('hidden');
+                const checkboxes = settings.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => checkbox.disabled = false);
+            } else {
+                settings.classList.add('hidden');
+                const checkboxes = settings.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => checkbox.disabled = true);
+            }
+        });
+    }
+    // Inisialisasi
+    toggleSettings('toggleEmail', 'emailSettings');
+    toggleSettings('toggleSMS', 'smsSettings');
+    toggleSettings('toggleWA', 'waSettings');
+</script>

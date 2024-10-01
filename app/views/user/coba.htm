@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Store - Android Version</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icofont/1.0.1/css/icofont.min.css">
+    <style>
+        .hero.is-small {
+            padding: 1.5rem 1rem;
+        }
+        .category-card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .product-card {
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .product-card img {
+            border-radius: 8px;
+        }
+        .navbar-custom {
+            background-color: #ff6f61;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <section class="hero is-small navbar-custom">
+        <div class="container">
+            <div class="columns is-mobile is-vcentered">
+                <div class="column is-narrow">
+                    <a href="#" class="button is-white">
+                        <span class="icon is-medium">
+                            <i class="icofont-arrow-left"></i>
+                        </span>
+                    </a>
+                </div>
+                <div class="column">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Elektronik">
+                    </div>
+                </div>
+                <div class="column is-narrow">
+                    <a href="#" class="button is-white">
+                        <span class="icon is-medium">
+                            <i class="icofont-shopping-cart"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="title is-5">Kategori</h2>
+            <div class="columns is-mobile is-multiline">
+                <div class="column is-3 has-text-centered category-card">
+                    <figure class="image is-64x64">
+                        <img src="https://via.placeholder.com/64" alt="Elektronik">
+                    </figure>
+                    <p class="is-size-7">Elektronik</p>
+                </div>
+                <!-- Tambahkan lebih banyak kategori sesuai kebutuhan -->
+                <div class="column is-3 has-text-centered category-card">
+                    <figure class="image is-64x64">
+                        <img src="https://via.placeholder.com/64" alt="Pakaian Pria">
+                    </figure>
+                    <p class="is-size-7">Pakaian Pria</p>
+                </div>
+                <div class="column is-3 has-text-centered category-card">
+                    <figure class="image is-64x64">
+                        <img src="https://via.placeholder.com/64" alt="Sepatu">
+                    </figure>
+                    <p class="is-size-7">Sepatu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Recommendation Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="title is-5">Rekomendasi</h2>
+            <div class="columns is-mobile is-multiline">
+                <div class="column is-half">
+                    <div class="product-card">
+                        <figure class="image is-square">
+                            <img src="https://via.placeholder.com/128" alt="Produk">
+                        </figure>
+                        <p class="is-size-6">Kemeja Flanel Pria</p>
+                        <p class="is-size-7 has-text-danger">Rp46.500</p>
+                    </div>
+                </div>
+                <!-- Tambahkan lebih banyak produk sesuai kebutuhan -->
+                <div class="column is-half">
+                    <div class="product-card">
+                        <figure class="image is-square">
+                            <img src="https://via.placeholder.com/128" alt="Produk">
+                        </figure>
+                        <p class="is-size-6">Sepatu Sneaker</p>
+                        <p class="is-size-7 has-text-danger">Rp142.100</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
