@@ -16,16 +16,49 @@
             <repeat group="{{ @carts }}" value="{{@cart}}">
                 <tr>
                     <td><img src="{{@BASE}}/public/images/1.jpg" class="image is-64x64" alt="logo"></img></td>
-                    <td>{{@cart.name}}</td>
-                    <td>Rp{{@cart.price}}</td>
-                    <td>{{@cart.qty}}</td>
-                    <td>Rp{{@cart.price*@cart.qty}}.000</td>    
+                    <td><br>{{@cart.name}}</td>
+                    <td><br>Rp{{@cart.price}}</td>
                     <td>
-                        <a href="{{ @BASE }}/remove/{{ @cart.id }}">
+                        <div class="quantity column has-text-left level">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <button
+                                    class="button is-light"
+                                    type="button"
+                                    onclick="changeQty(-1)"
+                                    >
+                                    -
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <input
+                                    class="input"
+                                    name="qty"
+                                    type="number"
+                                    value="{{@cart.qty}}"
+                                    min="1"
+                                    id="quantityInput"
+                                    />
+                                </p>
+                                <p class="control">
+                                    <button
+                                    class="button is-light"
+                                    type="button"
+                                    onclick="changeQty(1)"
+                                    >
+                                    +
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td><br>Rp{{@cart.price*@cart.qty}}.000</td>    
+                    <td>
+                        <br><a href="{{ @BASE }}/remove/{{ @cart.id }}">
                             <button class="button is-info is-small">
                             Hapus
                             </button>
-                          </a>
+                          </a> 
                     </td>
                 </tr>
             </repeat>
@@ -34,6 +67,20 @@
     </div>
   </div>
 </div>
+
+<!-- Script atur kuantitas produk  -->
+<script>
+    function changeQty(amount) {
+      const qtyInput = document.getElementById("quantityInput");
+      let currentQty = parseInt(qtyInput.value);
+      if (!isNaN(currentQty)) {
+        let newQty = currentQty + amount;
+        if (newQty < 1) newQty = 1; // tidak boleh kurang dari 1
+        qtyInput.value = newQty;
+      }
+    }
+  </script>
+
 <!-- ==================== DESKTOP ====================>
 
 <section class="section grey is-hidden-touch">
