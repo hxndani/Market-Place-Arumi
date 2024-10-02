@@ -1,0 +1,16 @@
+.panel-main {
+    background: #78c5f5;
+    border-radius: 5px;
+}
+
+.panel-left {
+    margin: 5px;
+    background: #78c5f5;
+    border-radius: 5px;
+}
+
+.panel-right {
+    margin: 5px;
+    background: #f578ac;
+    border-radius: 5px;
+}

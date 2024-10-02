@@ -1,0 +1,28 @@
+html, body {
+    height:100%;
+}
+
+html, body,
+nav.navbar-top {
+	background-color: #191c40;
+}
+
+h1.title,
+h2.title,
+h3.title,
+h4.title,
+h5.title,
+h6.title,
+div.columns,
+div.column,
+label.label,
+a.navbar-item {
+	color: #b29758;
+}
+
+.navbar-brand a.brand:hover,
+a.navbar-item:hover ,
+.control button.button {
+	background-color: #b29758;
+	color: #191c40;
+}
