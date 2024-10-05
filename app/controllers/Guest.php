@@ -87,6 +87,8 @@ class Guest extends BaseController
     function cart($f3) {
         $cart = new Cart($this->db);
         $f3->set('carts', $cart->find(null,['order'=>'id DESC']));
+
+        
         
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
@@ -94,8 +96,11 @@ class Guest extends BaseController
         echo Template::instance()->render('footer.htm');
     }
     
+    
     function addProduct($f3, $params) {
         $id = $params['id'];
+        $f3->set('SESSION.id_product', $id);
+
         $qty = (int)$f3->get('POST.qty');
     
         $_product_display = new _product_display($this->db);
@@ -180,21 +185,64 @@ class Guest extends BaseController
         echo Template::instance()->render('marketplace/merk/card_iklan.htm');
         echo Template::instance()->render('marketplace/merk/card_kategori_barang.htm');
         echo Template::instance()->render('footer.htm');
-        // endif;
     }
 
     // profil
-    function profil($f3)
-    {
-        // if($f3->get('SESSION.level') != '1'):
-        //     $this->f3->reroute('/');
-        // else:
+    function profil($f3){
+        $session = $f3->get('SESSION.user');
+        $_access = new _access($this->db);
+        $_member = new _member($this->db);
+        
+        $_member->load(array('username=?', $session));
+        
+        if($f3->exists('POST.submit')){
+            
+            $update_name = $f3->get('POST.name');
+            $update_phone = $f3->get('POST.phone');
+            $update_toko = $f3->get('POST.toko');
+            $update_username = $f3->get('POST.username');
+            $update_email = $f3->get('POST.email');
+
+            
+            $_member->username = $update_username;
+            $_member->email = $update_email;
+            $_member->name = $update_name;
+            $_member->phone = $update_phone;
+            $_member->toko = $update_toko;
+            $_member->update();
+            
+            $f3->set('members', $_member);
+
+            
+        }
+        else{
+                if($_member->load(array('username=?',$session)) == null){
+
+                    $select = $_access->load(array('username=?', $session));
+                    $_member->username = $select['username'];
+                    $_member->email = $select['email'];
+                    $_member->save();
+
+                    $f3->set('members', $_member->find());
+                    
+
+                }else{
+                    $_member->load(array('username=?', $session));
+                    $f3->set('members', $_member);
+
+                }
+            }   
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('user/side_bar.htm');
         echo Template::instance()->render('user/card_profil.htm');
         echo Template::instance()->render('footer.htm');
-        // endif;
+
+    }
+    function updateProfil($f3){
+
+        
+
     }
 
     function bank($f3)
@@ -207,7 +255,6 @@ class Guest extends BaseController
         echo Template::instance()->render('user/side_bar.htm');
         echo Template::instance()->render('user/card_bank.htm');
         echo Template::instance()->render('footer.htm');
-        // endif;
     }
 
     function alamat($f3)
@@ -284,10 +331,3 @@ class Guest extends BaseController
         echo $message;
     }
 }
-
-    // function logout($f3)
-    // {
-    //     $f3->clear('SESSION');
-    //     $this->f3->reroute('/');
-    // }
-
