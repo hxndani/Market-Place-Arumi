@@ -85,6 +85,10 @@ class Guest extends BaseController
 
     }
     function cart($f3) {
+        $session = $f3->get('SESSION.user');
+        if (!$session) {
+            $f3->reroute('/login');
+        }
         $cart = new Cart($this->db);
         $f3->set('carts', $cart->find(null,['order'=>'id DESC']));
 
@@ -98,6 +102,11 @@ class Guest extends BaseController
     
     
     function addProduct($f3, $params) {
+
+        $session = $f3->get('SESSION.user');
+        if (!$session) {
+            $f3->reroute('/login');
+        }
         $id = $params['id'];
         $f3->set('SESSION.id_product', $id);
 
@@ -200,15 +209,43 @@ class Guest extends BaseController
             $update_name = $f3->get('POST.name');
             $update_phone = $f3->get('POST.phone');
             $update_toko = $f3->get('POST.toko');
-            $update_username = $f3->get('POST.username');
+            $update_gender = $f3->get('POST.gender');
+            //$update_username = $f3->get('POST.username');
             $update_email = $f3->get('POST.email');
+            $update_tanggal_lahir = $f3->get('POST.tanggal_lahir');
 
+            //upload gambar
+            $nama_file = $_FILES['gambar']['name'];
+            $tmp_name = $_FILES['gambar']['tmp_name'];
+            $error = $_FILES['gambar']['error'];
+            $ukuran_file = $_FILES['gambar']['size'];
+
+            $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+            $ekstensiGambar = explode('.', $nama_file);
+            $ekstensiGambar = strtolower(end($ekstensiGambar));
+            if( !in_array($ekstensiGambar, $ekstensiGambarValid)){
+                $f3->set('error', 'Please upload a valid file (JPG/JPEG/PNG)!');
+                
+            }
+            else if($ukuran_file > 100000){
+                $f3->set('error', 'Ukuran file terlalu besar!');
+                
+            }
+            // lolos pengecekan, gambar siap diupload
+            // generate name gambar baru
+            $nama_file_baru = uniqid();
+            $nama_file_baru .= '.';
+            $nama_file_baru .= $ekstensiGambar;
+            move_uploaded_file($tmp_name, 'public/images/uploadedFile/' . $nama_file_baru);
             
-            $_member->username = $update_username;
+            // $_member->username = $update_username;
             $_member->email = $update_email;
             $_member->name = $update_name;
             $_member->phone = $update_phone;
             $_member->toko = $update_toko;
+            $_member->gambar = $nama_file_baru;
+            $_member->gender = $update_gender;
+            $_member->tanggal_lahir = $update_tanggal_lahir;
             $_member->update();
             
             $f3->set('members', $_member);
@@ -221,6 +258,9 @@ class Guest extends BaseController
                     $select = $_access->load(array('username=?', $session));
                     $_member->username = $select['username'];
                     $_member->email = $select['email'];
+                    $_member->gambar = "https://via.placeholder.com/128";
+                    $_member->gender = "";
+                    $_member->tanggal_lahir = null;
                     $_member->save();
 
                     $f3->set('members', $_member->find());
@@ -239,7 +279,7 @@ class Guest extends BaseController
         echo Template::instance()->render('footer.htm');
 
     }
-    function updateProfil($f3){
+    function uploadGambar($f3){
 
         
 
