@@ -7,6 +7,7 @@ class BaseController{
 
 	function beforeroute(){
 		// echo 'Before routing - ';
+		new Session();
 	}
 
 	function afterroute(){
@@ -18,6 +19,10 @@ class BaseController{
 		$f3=Base::instance();
 		$this->f3=$f3;
 		$this->f3->set('error', null);
+		$this->f3->set('members', null);
+		$this->f3->set('check', null);
+
+
 
 		$db=new DB\SQL(
 			$f3->get('gtdbcon'),
