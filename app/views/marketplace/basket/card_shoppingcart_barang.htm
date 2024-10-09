@@ -1,82 +1,63 @@
 <div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Gambar</th>
-            <th>Nama Produk</th>
-            <th>Harga Satuan</th>
-            <th>Kuantitas</th>
-            <th>Total Harga</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-            <repeat group="{{ @carts }}" value="{{@cart}}">
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Gambar</th>
+              <th>Nama Produk</th>
+              <th>Harga Satuan</th>
+              <th>Kuantitas</th>
+              <th>Total Harga</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <repeat group="{{ @carts }}" value="{{ @cart }}">
                 <tr>
-                    <td><img src="{{@BASE}}/public/images/1.jpg" class="image is-64x64" alt="logo"></img></td>
-                    <td><br>{{@cart.name}}</td>
-                    <td><br>Rp{{@cart.price}}</td>
-                    <td>
-                        <div class="quantity column has-text-left level">
-                            <div class="field has-addons">
-                                <p class="control">
-                                    <button
-                                    class="button is-light"
-                                    type="button"
-                                    onclick="changeQty(-1)"
-                                    >
-                                    -
-                                    </button>
-                                </p>
-                                <p class="control">
-                                    <input
-                                    class="input"
-                                    name="qty"
-                                    type="number"
-                                    value="{{@cart.qty}}"
-                                    min="1"
-                                    id="quantityInput"
-                                    />
-                                </p>
-                                <p class="control">
-                                    <button
-                                    class="button is-light"
-                                    type="button"
-                                    onclick="changeQty(1)"
-                                    >
-                                    +
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
-                    </td>
-                    <td><br>Rp{{ number_format(@cart.price*@cart.qty, 0,',', '.') }}</td>    
-                    <td>
-                        <br><a href="{{ @BASE }}/remove/{{ @cart.id }}">
-                            <button class="button is-info is-small">
-                            Hapus
-                            </button>
-                          </a> 
-                    </td>
+                    <td><img class="image is-48x48" src="{{@BASE}}/public/images/1.jpg" alt=""></td>
+                    <td>{{ @cart.product.name }}</td>
+                    <td>Rp{{ number_format(@cart.product.price, 0, ',', '.') }}</td>
+                    <td>{{ @cart.quantity }}</td>
+                    <td>Rp{{ number_format(@cart.product.price * @cart.quantity, 0, ',', '.') }}</td>
                 </tr>
-            </repeat>
-        </tbody>        
-      </table>
+            </repeat>                            
+          </tbody>        
+        </table>
+      </div>
     </div>
   </div>
-</div>
-
-<!-- Script atur kuantitas produk  -->
-<script>
-    function changeQty(amount) {
-      const qtyInput = document.getElementById('${cart.qty}');
-      let currentQty = parseInt(qtyInput.value);
-      if (!isNaN(currentQty)) {
+  
+  <!-- Script untuk mengubah kuantitas produk -->
+  <script>
+      function changeQty(button, amount) {
+    const cartId = button.getAttribute('data-cart-id');
+    const qtyInput = document.getElementById('quantityInput_' + cartId);
+    let currentQty = parseInt(qtyInput.value);
+    
+    if (!isNaN(currentQty)) {
         let newQty = currentQty + amount;
-        if (newQty < 1) newQty = 1; // tidak boleh kurang dari 1
-        qtyInput.value = newQty; 
-      }
+        if (newQty < 1) newQty = 1; // kuantitas tidak boleh kurang dari 1
+        qtyInput.value = newQty;
+
+        // Kirim pembaruan kuantitas ke server
+        fetch('{{ @BASE }}/update-quantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cart_id: cartId, quantity: newQty })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Tindakan jika diperlukan setelah pembaruan
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
+}
+
   </script>
+  
