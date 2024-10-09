@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{@BASE}}/public/bulma-0.9.1/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="{{@BASE}}/public/css/style.css">
     <link rel="stylesheet" type="text/css" href="{{@BASE}}/public/icofont/icofont.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
@@ -25,7 +26,9 @@
             <div id="navbar" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item nav-hover has-text-white" href="#">Seller Centre</a>
+                    <span class="horizontalr">|</span>
                     <a class="navbar-item nav-hover has-text-white" href="#">Download</a>
+                    <span class="horizontalr">|</span>
                     <span class="navbar-item has-text-white">Ikuti kami di</span>
                     <a class="navbar-item nav-hover has-text-white" href="#"><i class="icofont-facebook"></i></a>
                     <a class="navbar-item nav-hover has-text-white" href="#"><i class="icofont-instagram"></i></a>
@@ -37,8 +40,19 @@
                     
                     <check if="{{@SESSION}}">
                         <true>
-                            <a class="navbar-item nav-hover has-text-white" href="{{@BASE}}/profil">{{ @SESSION.user }}</a>
-                            <a class="navbar-item nav-hover has-text-white" href="{{@BASE}}/logout">Logout</a>
+                            <div class="member-area">
+                                <img src="{{@BASE}}/public/images/uploadedFile/{{@members.gambar}}" alt="Profile" class="member-profil">
+                                <div class="dropdown">
+                                    <a class="member-navbar-item" href="{{@BASE}}/profil" style="margin: 0; text-decoration: none;">{{ @SESSION.user }}</a>
+                                    <div class="dropdown-content">
+                                        <ul>
+                                            <li><a href="{{ @BASE }}/profil">Akun Saya</a></li>
+                                            <li><a href="{{ @BASE }}/pengiriman">Pesanan Saya</a></li>
+                                            <li><a href="{{ @BASE }}/logout">Log Out</a></li>
+                                        </ul>
+                                    </div>
+                                </div>           
+                            </div>    
                         </true>
                         <false>
                             <!-- <a class="navbar-item nav-hover has-text-white" href="{{@BASE}}/datadiri">Daftar</a> -->
@@ -79,7 +93,6 @@
     </script>
     <!--End of Tawk.to Script-->
 
-    <!-- Script untuk mengaktifkan hamburger menu -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
@@ -96,4 +109,3 @@
             }
         });
     </script>
-
