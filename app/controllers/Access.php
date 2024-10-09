@@ -16,7 +16,7 @@ class Access extends BaseController
             $_access = new _access($this->db);
 
             if ($this->checkUsername($username) or $this->checkEmail($email)){
-                $f3->set('error', 'Email sudah digunakan!');
+                $f3->set('error', 'Email/Username sudah digunakan!');
             } 
             else if($password !== $password2){
                 $f3->set('error', 'Konfirmasi password tidak cocok');
@@ -31,6 +31,8 @@ class Access extends BaseController
                 "','" . $hash .
                 "','2','1')";
                 $new = $_access->newAccess($data);
+                // $f3->set('SESSION.email',  $email);
+
                 $this->$f3->reroute('/login');
             }
             echo Template::instance()->render('marketplace/login/header.htm');
@@ -48,17 +50,19 @@ class Access extends BaseController
 
         $username = $f3->get('POST.username');
         $password = $f3->get('POST.password');
+        $email = $f3->get('POST.email');
 
-        if ($this->checkUsername($username) || $this->checkEmail($username)) {
+        if ($this->checkUsername($username) || $this->checkEmail($email)) {
             if ($this->checkCredentialsByUsername($username, $password) || $this->checkCredentialsByEmail($username, $password)) {
                 $_access = new _access($this->db);
-                $level = $_access->getLevelByUsername($username);
-                if (!$level) {
-                    $level = $_access->getLevelByEmail($username);
-                }
-
+                $level = $_access->getLevelByUsername($username) | $_access->getLevelByEmail($email);
+                
+                
+                $user_id = $_access['id'];
                 $f3->set('SESSION.level', $level);
                 $f3->set('SESSION.user', $username);
+                $f3->set('SESSION.user_id', $user_id);
+                // $f3->set('SESSION.email', $email);
 
                 $f3->reroute('/');
             } else {
