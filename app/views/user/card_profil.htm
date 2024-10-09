@@ -2,13 +2,15 @@
     <h1 class="title is-4">Profil Saya</h1>
     <p class="subtitle is-6">Kelola informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun</p>
     <hr>
-    <form action="{{ @BASE }}/profil" method="POST">
+    <form action="{{ @BASE }}/profil" method="POST" enctype="multipart/form-data">
         <div class="columns">
             <div class="column is-three-quarters">
                 <div class="field">
                 <label class="label">Username</label>
                     <div class="control"> 
-                        <input class="input" type="text" value="{{@members.username}}" name="username">
+                        <input  class="input" type="text" value="{{@members.username}}">
+                        <span class="has-text-danger has-text-weight-bold is-italic is-size-7">*username tidak dapat diubah
+                        </span>
                     </div>
                 </div>
                             
@@ -39,29 +41,48 @@
                         <input class="input" type="text" value="{{@members.toko}}" name="toko">
                     </div>
                 </div>
-        
+
                 <div class="field">
                     <label class="label">Jenis Kelamin</label>
                     <div class="control">
-                        <label class="radio">
-                            <input type="radio" name="gender1" checked>
-                            Laki-laki
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="gender2">
-                            Perempuan
-                        </label>
-                            <label class="radio">
-                                <input type="radio" name="gender3">
-                                Lainnya
-                            </label>
+                        <check if="{{@members.gender == ''}}">
+                            <true>
+                                <label class="radio">
+                                    <input type="radio" name="gender" value="L">
+                                    Laki-laki
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="gender" value="P">
+                                        Perempuan
+                                </label>
+                            </true>
+                            <false>
+                                <check if="{{@members.gender == 'L'}}">
+                                    <true>
+                                        <label class="radio">
+                                            <input type="radio" name="gender" value="L" checked>
+                                            Laki-laki
+                                            <input type="radio" name="gender" value="P">
+                                            Perempuan
+                                        </label>
+                                    <true>
+                                    <false>
+                                        <label class="radio">
+                                            <input type="radio" name="gender" value="L" >
+                                            Laki-laki
+                                            <input type="radio" name="gender" value="P" checked>
+                                            Perempuan
+                                        </label>
+                                    </false>
+                                </check>
+                            </false>
+                        </check>
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Tanggal Lahir</label>
                     <div class="control">
-                        <input class="input" type="text" value="**/12/20**" disabled>
-                            <a href="#" class="ml-2">Ubah</a>
+                        <input class="input" type="date" value="{{@members.tanggal_lahir}}" name="tanggal_lahir">
                     </div>
                 </div>
         
@@ -71,15 +92,18 @@
                     </div>
                 </div>
             </div>
-        
                     <div class="column is-one-quarter">
                         <div class="has-text-centered">
                             <figure class="image is-96x96 is-inline-block">
-                                <img src="https://via.placeholder.com/128" alt="Profile Picture" class="is-rounded">
+                                <img src="{{@BASE}}/public/images/uploadedFile/{{@members.gambar}}" alt="Profile Picture" class="is-rounded">
                             </figure>
-                            <button class="button is-light mt-3">Pilih Gambar</button>
+                            <input class="submit" type="file" name="gambar"></input>
                                 <p class="mt-2">Ukuran gambar: maks. 1 MB</p>
-                                <p>Format gambar: .JPEG, .PNG</p>
+                                <p>Format gambar: .JPG, .JPEG, .PNG</p>
+                                <br>
+                                <check if="{{@error}}">
+                                    <p class="has-text-danger is-italic">{{@error}}</p>
+                                </check>   
                         </div>
                     </div>
                     </div>
