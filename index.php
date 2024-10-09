@@ -27,7 +27,8 @@ $f3->route('GET /remove/@id', 'Guest->remove');
 
 // profil //
 $f3->route('GET /profil', 'Guest->profil');
-$f3->route('POST /saveProfil', 'Member->saveProfil');
+$f3->route('POST /profil', 'Guest->profil');
+$f3->route('POST /updateProfil', 'Guest->updateProfil');
 $f3->route('GET /bank', 'Guest->bank');
 $f3->route('GET /alamat', 'Guest->alamat');
 $f3->route('GET /pengiriman', 'Guest->pengiriman');
@@ -68,5 +69,7 @@ $f3->route('GET /logout', 'Access->logout');
 $f3->route('GET /detail/@id', 'Guest->detail');
 $f3->route('GET /api/allproducts', 'ProductDisplay->showAllProducts');
 $f3->route('GET /show_detail/@id', 'ProductDisplay->showDetailProducts');
+$f3->route('POST /update-quantity', 'Guest->updateQuantity');
+
 
 $f3->run();
