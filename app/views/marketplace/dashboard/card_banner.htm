@@ -1,79 +1,528 @@
-<section class="hero is-small is-hidden-touch">
-    <div class="container column is-9">
-        <div class="columns is-mobile">
-            <div class="column is-7 pr-0 m-0">
-                <figure class="image is-3by1">
-                    <img id="mainAdImage" src="{{ @BASE }}/public/images/ads4.jpg" alt="Main Ad">
-                </figure>
-                <div>
-                    <span class="active" onclick="setSlide(0)"></span>
-                    <span onclick="setSlide(1)"></span>
-                    <span onclick="setSlide(2)"></span>
-                    <span onclick="setSlide(3)"></span>
-                    <span onclick="setSlide(4)"></span>
+<!-- for desktop -->
+<section class="section size-gap grey is-hidden-touch">
+    <div class="container column is-9 box is-relative px-6">
+        <h4 class="title is-5 mb-3">Kategori</h4>
+        <button class="button prev-arrow is-size-4 p-1" style="position: absolute; left: 0; top: 40%; z-index: 10;"><i class="icofont-simple-left"></i></button>
+        <div class="columns is-1 is-gapless horizontal-scroll-desktop m-0">
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/cover_radiator.png" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Radiator</p>
+                    </div>
                 </div>
+                </a>
             </div>
-            <div class="column pl-1 m-0">
-                <div class="p-0">
-                    <figure class="ads image mb-1">
-                        <img src="{{@BASE}}/public/images/ads5.jpg" alt="Ad 1">
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/cover_spinner.jpg" alt="Pilih Lokal">
                     </figure>
+                    <p>Cover Spiner</p>
+                    </div>
                 </div>
-                <div class="p-0">
-                    <figure class="ads image">
-                        <img src="{{@BASE}}/public/images/ads6.jpg" alt="Ad 2">
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/engine_mounting.jpg" alt="Pilih Lokal">
                     </figure>
+                    <p>Engine Mounting</p>
+                    </div>
                 </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/radiator_cap.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Radiator Cap</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/bracket_selang.png" alt="Pilih Lokal">
+                    </figure>
+                    <p>Bracket Selang Rem</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/tutup_oli.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Tutup Oli</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/cover_leher.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Leher Radiator</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/otomotif.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Akseoris Plat Motor</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/aksesoris_roda.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Roda</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/jalu_stang.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Jalu Stang</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/fashion.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Mesin</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/health.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Bracket Kaliper</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/outdoor.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Tameng Knalpot</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/gantungan_barang.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Gantungan Barang</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/health.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Tutup Tangki</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/tutup_spion.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Garnish & Tutup Spion</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/paketan.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Paketan</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/aksesoris_akrilik.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Akrilik</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-2">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/aksesoris_lainnya.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Lainnya</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+        <button class="button next-arrow is-size-4 p-1" style="position: absolute; right: 0; top: 40%; z-index: 10;"><i class="icofont-simple-right"></i></button>
+    </div>
+</section>
+
+<!-- for mobile -->
+<section class="section is-hidden-desktop px-2">
+    <div class="container">
+        <h4 class="title is-5 mb-2">Kategori</h4>
+        <div class="columns is-1 is-gapless is-mobile horizontal-scroll">
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/cover_radiator.png" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Radiator</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/fashion.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Spiner</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centeered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/health.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Engine Mounting</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/outdoor.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Radiator Cap</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/food.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Bracket Selang Rem</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/otomotif.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Tutup Oli</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/outdoor.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Leher Radiator</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/otomotif.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Plat Nomor</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/fashion.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Roda</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/elektronik.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Jalu Stang</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/outdoor.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Mesin</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/health.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Bracket Kaliper</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/fashion.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Tameng Knalpot</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/otomotif.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Gantungan Barang</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/elektronik.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Cover Tutup Tangki</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/food.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Garnish & Tutup Spion</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/outdoor.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Paketan</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/fashion.jpg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Akrilik</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="column is-6-touch">
+                <a href="{{@BASE}}/category">
+                <div class="has-text-centered box mb-1 p-2" style="box-shadow: none; outline: 0.01px solid #ddd; outline-offset: -0.01px; min-width: 26vw;">
+                    <div>
+                    <figure class="image is-128x85 is-inline-block">
+                        <img src="{{@BASE}}/public/images/health.jpeg" alt="Pilih Lokal">
+                    </figure>
+                    <p>Aksesoris Lainnya</p>
+                    </div>
+                </div>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section p-0 is-hidden-desktop">
-    <div class="container column p-0">
-        <figure class="image is-3by1">
-            <img id="mainAdImage2" src="{{@BASE}}/public/images/ads4.jpg" alt="Main Ad">
-        </figure>
-        <div>
-            <span class="active" onclick="setSlide(0)"></span>
-            <span onclick="setSlide(1)"></span>
-            <span onclick="setSlide(2)"></span>
-            <span onclick="setSlide(3)"></span>
-            <span onclick="setSlide(4)"></span>
+<!-- for mobile -->
+<!-- <section class="section is-hidden-desktop">
+    <div class="container">
+        <h2 class="title is-5">Kategori</h2>
+        <div class="columns is-mobile is-multiline">
+            <div class="column m-1is-3 has-text-centered category-card">
+                <figure class="image is-64x64">
+                    <img src="https://via.placeholder.com/64" alt="Elektronik">
+                </figure>
+                <p class="is-size-7">Elektronik</p>
+            </div>
+
+            <div class="column m-1is-3 has-text-centered category-card">
+                <figure class="image is-64x64">
+                    <img src="https://via.placeholder.com/64" alt="Pakaian Pria">
+                </figure>
+                <p class="is-size-7">Pakaian Pria</p>
+            </div>
+            <div class="column m-1is-3 has-text-centered category-card">
+                <figure class="image is-64x64">
+                    <img src="https://via.placeholder.com/64" alt="Sepatu">
+                </figure>
+                <p class="is-size-7">Sepatu</p>
+            </div>
         </div>
     </div>
-</section>
+</section> -->
+<!-- <script>
+    $(document).ready(function() {
+        $('.column').click(function() {
+            var url = $(this).data('url');
+            window.location.href = url;
+        });
+    });
+</script> -->
 
 <script>
-        const images = [
-        '{{@BASE}}/public/images/ads1.jpg',
-        '{{@BASE}}/public/images/ads5.jpg',
-        '{{@BASE}}/public/images/ads4.jpg',
-        '{{@BASE}}/public/images/ads1.jpg',
-        '{{@BASE}}/public/images/ads4.jpg',
-    ];
+const sliders = document.querySelector('.horizontal-scroll-desktop');
+const prevArrow = document.querySelector('.prev-arrow');
+const nextArrow = document.querySelector('.next-arrow');
 
-    let currentIndex = 0;
-    const mainAdImageDesktop = document.getElementById('mainAdImage');
-    const mainAdImageMobile = document.getElementById('mainAdImage2');
-    const dots = document.querySelectorAll('span[onclick^="setSlide"]');
+// Scroll by item width (300px in this example)
+const scrollAmount = 600;
 
-    function showSlide(index) {
-        mainAdImageDesktop.src = images[index];
-        mainAdImageMobile.src = images[index];
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[index].classList.add('active');
-    }
+nextArrow.addEventListener('click', () => {
+  sliders.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+});
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % images.length;
-        showSlide(currentIndex);
-    }
-
-    function setSlide(index) {
-        currentIndex = index;
-        showSlide(index);
-    }
-
-    setInterval(nextSlide, 3000);
+prevArrow.addEventListener('click', () => {
+  sliders.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+});
 </script>
