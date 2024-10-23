@@ -95,6 +95,8 @@
                     let column = document.createElement('div');
                     column.classList.add('column', 'is-half-touch', 'p-0', 'mb-3');
                     console.log(product.id)
+
+                    const formattedNumber = product.price.toLocaleString("id-ID")
                     column.innerHTML = `
                     <div class="grid-border">
                         <a href="/detail/${product.id}">
@@ -109,12 +111,9 @@
                                         <div class="product-title-wrapper mb-2">
                                             <p class="product-title">${product.name} - ${product.motor}</p>
                                         </div>
-                                        <div class="product-tags mb-1">
-                                            <span class="tag is-danger">Diskon</span>
-                                            <span class="tag is-primary">-69%</span>
-                                        </div>
+                                        ${discountDisplay}
                                         <div class="price-sold is-flex is-justify-content-space-between is-align-items-center">
-                                            <p class="product-price has-text-info has-text-weight-medium is-size-6">${product.price}</p>
+                                            <p class="product-price has-text-info has-text-weight-medium is-size-6">${formattedNumber}.${toLocaleString("id-ID")}</p>
                                             <p class="product-sold is-size-7">${product.stock}</p>
                                         </div>
                                     </div>
@@ -198,14 +197,30 @@
                 products.forEach((product, index) => {
                     let column = document.createElement('div');
                     column.classList.add('column', 'is-2', 'p-0', 'mb-3');
-                    console.log(product.id)
+                    console.log(product.id);
+
+                    const product_price = product.price.toLocaleString('id-ID');
+                    let promo_price = product.promo_price && product.discount_percent ? product.promo_price.toLocaleString('id-ID') : `${product_price}`;
+                    // console.log(product_price);
+
+                    const date = Date.now();
+                    const end_date = Date.parse(`${product.end_date}`);
+                    let promo_end_date = end_date + 24 * 60 * 60 * 1000;
+
+                    const discountTag = promo_end_date >= date ?`
+                    <div class="product-tags mb-1">
+                        <span class="tag is-danger">Diskon</span>
+                        <span class="tag is-primary">-${product.discount_percent}%</span>
+                    </div>
+                ` : '';
+                
                     column.innerHTML = `
                     <div class="grid-border">
                         <a href="/detail/${product.id}">
                             <div class="card">
                                 <div class="card-image">
                                     <figure class="image is-1by1">
-                                        <img src="/public/images/${product.product_img}" alt="${product.name} - ${product.motor}" class="product-image">
+                                        <img src="/public/images/${product.image}" alt="${product.name} - ${product.motor}" class="product-image">
                                     </figure>
                                 </div>
                                 <div class="card-content p-3">
@@ -213,12 +228,9 @@
                                         <div class="product-title-wrapper mb-2">
                                             <p class="product-title">${product.name} - ${product.motor}</p>
                                         </div>
-                                        <div class="product-tags mb-1">
-                                            <span class="tag is-danger">Diskon</span>
-                                            <span class="tag is-primary">-69%</span>
-                                        </div>
+                                        ${discountTag}
                                         <div class="price-sold is-flex is-justify-content-space-between is-align-items-center">
-                                            <p class="product-price has-text-info has-text-weight-medium is-size-6">${product.price}</p>
+                                            <p class="product-price has-text-info has-text-weight-medium is-size-6">${promo_price}</p>
                                             <p class="product-sold is-size-7">${product.sold} Terjual</p>
                                         </div>
                                     </div>
@@ -275,4 +287,3 @@
         loadItems(currentPage);
     }
 </script>
-
