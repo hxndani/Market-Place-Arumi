@@ -53,22 +53,24 @@ class Guest extends BaseController
         endif;
     }
 
-    function detail($f3,$params)
+    function detail($f3)
     {
-            $id = $params['id'];
-            $_product_display = new _product_display($this->db); // 
-            $_product_display->load(array('id=?', $id));
+            $id = $f3->get('PARAMS.id');
+            $_product_display = new _product_display($this->db);//
+            // $product = $_product_display->load(array('id = ?', $id));
+            $product = $_product_display->getProductDetail($id);
             $_member = new _member($this->db);
             $members = $_member->load(array('username=?', $f3->get('SESSION.user')));
         
             // Cek jika produk ditemukan
-            if (!$_product_display->dry()) {
+            // if (!$_product_display->dry()) {
                 // mengkonversi object ke array
-                $product = $_product_display->cast();
+                // $product = $_product_display->cast();
         
                 // ngiirim data produck ke view
-                $f3->set('product', $product);
+                $f3->set('products', $product);
                 $f3->set('members', $members);
+                // print_r($product);
                 
             echo Template::instance()->render('header.htm');
             echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
@@ -77,34 +79,116 @@ class Guest extends BaseController
             echo Template::instance()->render('marketplace/basket/card_review_barang.htm');
             echo Template::instance()->render('footer.htm');
 
-        } else{
-            $type = false;
-            $message = 'Produk tidak ditemukan';
-            $this->infoShow($type,$message);
-        }
+        // } else{
+        //     $type = false;
+        //     $message = 'Produk tidak ditemukan';
+        //     $this->infoShow($type,$message);
+        // }
 
     }
+    
+    
     function cart($f3) {
         $session = $f3->get('SESSION.user');
-        $_member = new _member($this->db);
-        $_member->load(array('username=?', $session));
+
         if (!$session) {
             $f3->reroute('/login');
         }
-        
-        $user_id = $f3->get('SESSION.user_id');
+
+        $_member = new _member($this->db);
+        $_member->load(['username=?', $session]);
+
         $cart = new Cart($this->db);
-        $carts = $cart->getCartWithProductDetails($user_id); // Ambil detail produk
+
+        // Handle POST request untuk update kuantitas
+        if ($f3->get('VERB') === 'POST' && $f3->get('POST.action') === 'update') {
+            $cart_id = $f3->get('POST.cart_id');
+            $quantity = $f3->get('POST.quantity');
+    
+            // Debugging - Log data POST untuk cek
+            error_log("cart_id: $cart_id, quantity: $quantity");
+    
+            if (!$cart_id || !$quantity) {
+                echo json_encode(['error' => 'Missing cart_id or quantity']);
+                return;
+            }
+    
+            try {
+                // Mengambil cart item dengan harga final
+                $user_id = $f3->get('SESSION.user_id');
+                $carts = $cart->getCartWithProductDetails($user_id);
+    
+                if ($carts) {
+                    $cart->load(['id=?', $cart_id]);
+                    $cart->quantity = $quantity;
+                    $cart->update();
+                
+                    // Pastikan kita mendapatkan final_price yang benar
+                    // $final_price = $cart['final_price'] ?? 0; // Gunakan nilai default jika tidak ada
+                    
+                    $subtotal = $this->subtotal($cart_id);
+                     // Hitung subtotal
+                    $totalPrice = $this->calculateTotalPrice($f3->get('SESSION.user_id'));
+                
+                    header('Content-Type: application/json');
+                    
+                    echo json_encode([
+                        'subtotal' => $subtotal,
+                        'total_price' => $totalPrice
+                    ]);
+                    return;
+                }
+                
+    
+                echo json_encode(['error' => 'Cart item not found']);
+                return;
+            } catch (Exception $e) {
+                error_log("Error updating cart: " . $e->getMessage());
+                echo json_encode(['error' => 'Internal server error']);
+                return;
+            }
+        }
         
+        // Ambil cart dan render halaman jika bukan POST update
+        $user_id = $f3->get('SESSION.user_id');
+        $carts = $cart->getCartWithProductDetails($user_id);
+        $count_product = count($carts);
+
         $f3->set('carts', $carts);
-
+        $f3->set('count_product', $count_product);
         $f3->set('members', $_member);
-
+        
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('marketplace/basket/card_shoppingcart_barang.htm');
         echo Template::instance()->render('footer.htm');
-    }    
+    }
+    
+    private function calculateTotalPrice($user_id) {
+        $cart = new Cart($this->db);
+        $carts = $cart->getCartWithProductDetails($user_id);
+        $totalPrice = 0;
+    
+        foreach ($carts as $item) {
+            $totalPrice += $item['final_price'] * $item['quantity'];
+            
+        }
+    
+        return $totalPrice;
+    }
+
+    private function subtotal($cart_id){
+        $cart = new Cart($this->db);
+        $carts = $cart->getProduct($cart_id);
+        $subtotal = 0;
+
+        foreach ($carts as $item) {
+            $subtotal = $item['final_price'] * $item['quantity'];
+        }
+
+        return $subtotal;
+    }
+      
     function addProduct($f3) {
 
         $session = $f3->get('SESSION.user');
@@ -112,33 +196,21 @@ class Guest extends BaseController
             $f3->reroute('/login');
         }
         $product_id = $f3->get('POST.product_id');
-        $qty = (int)$f3->get('POST.qty');
+        $quantity = (int)$f3->get('POST.quantity');
         $user_id = $f3->get('SESSION.user_id');
 
         $cart = new Cart($this->db);
-        $cart->addToCart($user_id, $product_id, $qty);
+        $cart->addToCart($user_id, $product_id, $quantity);
         $f3->reroute('/detail/@id');
     
         
     }
 
-    function updateQuantity() {
-        $data = json_decode(file_get_contents("php://input"), true);
-        $cart_id = $data['cart_id'];
-        $quantity = $data['quantity'];
-
-        $cart = new Cart($this->db);
-        $cart->updateQuantity($cart_id, $quantity);
-        
-        echo json_encode(['status' => 'success']);
-    }
-
-
     function remove(){
         $id = $this->f3->get('PARAMS.id');
-        $user = new Cart($this->db);
-        $user->load(array('id=?',$id));
-        $user->erase();
+        $cart = new Cart($this->db);
+        $cart->load(array('id=?',$id));
+        $cart->erase();
         $this->f3->reroute("/cart");
 
     }
@@ -287,6 +359,16 @@ class Guest extends BaseController
         // if($f3->get('SESSION.level') != '1'):
         //     $this->f3->reroute('/');
         // else:
+        $_access = new _access($this->db);
+        $session = $f3->get('SESSION.user');
+        if(!$session){
+            $f3->reroute('/login');
+        }
+            
+        $_member = new _member($this->db);
+            
+        $_member->load(array('username=?', $session));
+        $f3->set('members', $_member);
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('user/side_bar.htm');
@@ -300,6 +382,17 @@ class Guest extends BaseController
         // if($f3->get('SESSION.level') != '1'):
         //     $this->f3->reroute('/');
         // else:
+        $_access = new _access($this->db);
+        $session = $f3->get('SESSION.user');
+
+        if(!$session){
+            $f3->reroute('/login');
+        }
+        $_member = new _member($this->db);
+                
+        $_member->load(array('username=?', $session));
+        $f3->set('members', $_member);
+
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('user/side_bar.htm');
@@ -309,7 +402,41 @@ class Guest extends BaseController
     }
 
     function checkout($f3){
-        $session =  $f3->get('SESSION');
+        
+        $session = $f3->get('SESSION.user');
+        if (!$session) {
+            $f3->reroute('/login');
+        }
+
+        
+        $selected_products = $f3->get('POST.selected_products');
+
+        if(!$selected_products){
+            $f3->reroute('/cart');
+        }
+        $cart = new Cart($this->db);
+        $checkoutProducts = [];
+        foreach ($selected_products as $productId) {
+            // Ambil detail produk dari database
+            $product = $cart->getSelectedProducts($selected_products);
+            $checkoutProducts = $product;
+        }
+        
+        $_member = new _member($this->db);
+        $members = $_member->load(array('username=?', $session));
+        // $cart = new Cart($this->db);
+        // $checkout_products = $cart->getSelectedProducts($selected_products);
+        
+        $f3->set('SESSION.checkout_products', $checkoutProducts);
+        $f3->set('members', $members);
+        
+        echo Template::instance()->render('header.htm');
+        // print_r($checkoutProducts);
+        echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
+        echo Template::instance()->render('marketplace/basket/card_checkout_barang.htm');
+        
+
+        echo Template::instance()->render('footer.htm');
 
     }
 
