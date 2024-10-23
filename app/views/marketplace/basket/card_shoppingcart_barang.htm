@@ -1,142 +1,348 @@
 <br>
-<div class="box" style="width: 70%; margin: 0 auto;">
-<table class="table" style="width: 100%; margin: 0 auto; font-size: 14px;">
-  <thead>
-    <tr>
-      <th style="font-weight: 400; width: 50%;">
-        <input type="checkbox" style="margin-right: 10px;"> <!-- Checkbox di sebelah kiri -->
-        <abbr>Produk</abbr>
-      </th>
-      <th style="font-weight: 400; width: 15%; text-align: center;"><abbr>Harga Satuan</abbr></th>
-      <th style="font-weight: 400; width: 20%; text-align: center;"><abbr>Kuantitas</abbr></th>
-      <th style="font-weight: 400; width: 15%; text-align: center;"><abbr>Total Harga</abbr></th>
-      <th style="font-weight: 400; width: 15%; text-align: center;"><abbr>Aksi</abbr></th>
-    </tr>
-  </thead>
-  <tbody>
-    <repeat group="{{ @carts }}" value="{{@cart}}">
+<form action="{{@BASE}}/checkout" method="POST">
+<div class="table-container">
+  <div class="table-head box" style="width: 70%; margin: 0 auto;">
+  <table style="width: 100%; margin: 0 auto; font-size: 13px;">
+    <thead>
       <tr>
-        <td style="display: flex; align-items: center;">
-          <input type="checkbox" style="margin-right: 10px;">
-          <img src="{{@BASE}}/public/images/1.jpg" class="image is-64x64" alt="logo" style="margin-right: 10px;"> <!-- Gambar -->
-          <div style="display: flex; flex-direction: column; margin-left: 10px; margin-top: -35px;"> <!-- Kontainer untuk teks -->
-            <span>{{@cart.name}}</span> 
-            <span class="has-text-primary is-size-7">Bebas Pengembalian</span>
-          </div>
-        </td>
-        </td>
-        <td style="text-align: center;">Rp{{ number_format (@cart.price, 0, ',', '.' )}}</td>
-        <td style="text-align: center;">
-          <div class="field has-addons">
-            <p class="control">
-              <button
-                class="button is-light"
-                type="button"
-                onclick="changeQty(-1)"
-              >
-                -
-              </button>
-            </p>
-            <p class="control">
-              <input
-                class="input"
-                name="qty"
-                type="number"
-                value="{{@cart.qty}}"
-                min="1"
-                id="quantityInput"
-              />
-            </p>
-            <p class="control">
-              <button
-                class="button is-light"
-                type="button"
-                onclick="changeQty(1)"
-              >
-                +
-              </button>
-            </p>
-          </div>
-        </td>
-        
-        <td>Rp{{ number_format(@cart.price*@cart.qty, 0, ',', '.' )}}</td>
-
-        <td>                        
-          <a href="{{ @BASE }}/remove/{{ @cart.id }}">
-          <button class="button is-info is-small" style="text-align: center;">
-          Hapus
-          </button>
-        </a></td>
+        <th class="checkall" style="font-weight: 400; width: 40%;">
+          <input type="checkbox" id="option-all" name="selected_products[]" style="margin-right: 5px; transform: scale(1.2);" onchange="checkAll(this)">
+          <label for="option-all">
+            <span class="checkbox">
+              <span class="check"></span>
+            </span> <!-- Checkbox di sebelah kiri -->
+            <abbr>Produk</abbr>
+          </label>
+        </th>
+        <th style="font-weight: 400; width: 15%; text-align: center;"><abbr>Harga Satuan</abbr></th>
+        <th style="font-weight: 400; width: 20%; text-align: center;"><abbr>Kuantitas</abbr></th>
+        <th style="font-weight: 400; width: 15%; text-align: center;"><abbr>Total Harga</abbr></th>
+        <th style="font-weight: 400; width: 15%; text-align: center;"><abbr>Aksi</abbr></th>
       </tr>
-  </repeat>
-  </tbody>
-</table>
+    </thead>
+  </table>
 </div>
-<br>
 
+    <div class="table-body box" style="width: 70%; margin: 0 auto; margin-top: 10px;">
+      <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+        <tbody>
+          <repeat group="{{ @carts }}" value="{{ @cart }}">
+            <tr style="border-bottom: 1px solid rgba(128, 128, 128, 0.5); box-sizing: border-box;">
+              <td class="checkall" style="display: flex; align-items: center; width: 40%;">
+                <input type="checkbox" class="product-checkbox" data-produk="" data-price="{{ @cart.final_price }}" data-quantity="{{ @cart.quantity }}" name="selected_products[]" value="{{@cart.cart_id}}" style="margin-right: 15px; transform: scale(1.2);">
+                  <label for="option">
+                    <span class="checkbox">
+                      <span class="check"></span>
+                    </span>
+                  </label>
+                  <img src="{{@BASE}}/public/images/{{@cart.image}}" class="image is-64x64" alt="logo" style="margin-top: 18px;
+                  margin-bottom: 18px;
+                  margin-left: 0; 
+                  margin-right: 0;"> <!-- Gambar -->
+                  <div style="display: flex; flex-direction: column; margin-left: 10px; margin-top: -25px;"> <!-- Kontainer untuk teks -->
+                    <span style="white-space: nowrap;">{{@cart.name}}</span> 
+                    <span class="has-text-primary is-size-7">Bebas Pengembalian</span>
+                  </div>
+              </td>
+              <td>
+                <div class="variasi" style="margin-top: 20px;">
+                  <div class="dropdown">
+                    <div style="display: flex; margin-right: -35px;">
+                        <a class="variasi-text" style="color: grey; margin-right: 5px;">Variasi:</a>
+                        <button id="dropdownButton" class="dropdown-toggle" style="font-size: 12px; background: none; border: none; padding: 0;">
+                          <i class="fas fa-chevron-down" style="margin-left: 18px; font-size: smaller; color: grey;"></i>
+                        </button>
+                    </div>
+                    <div style="display: flex; align-items: center; color: grey;">
+                      <p>Biru</p> 
+                    </div>
+                      <div id="dropdownMenu" class="dropdown-content" >
+                          <ul>
+                            <div class="columns is-multiline is-mobile mx-1">
+                              <div class="column is-narrow">
+                                  <div class="variant-item has-background-white">
+                                      <figure class="image is-48x48">
+                                          <!-- <img src="https://via.placeholder.com/48x48/dda15e" alt="Varian 1"> -->
+                                      </figure>
+                                  </div>
+                              </div>
+      
+                              <div class="column is-narrow">
+                                  <div class="variant-item has-background-warning">
+                                      <figure class="image is-48x48">
+                                          <!-- <img src="https://via.placeholder.com/48x48/ffd700" alt="Varian 2"> -->
+                                      </figure>
+                                  </div>
+                              </div>
+      
+                              <div class="column is-narrow">
+                                  <div class="variant-item selected has-background-info">
+                                      <figure class="image is-48x48">
+                                          <!-- <img src="https://via.placeholder.com/48x48/cccccc" alt="Varian 3"> -->
+                                      </figure>
+                                  </div>
+                              </div>
+      
+                              <div class="column is-narrow">
+                                  <div class="variant-item has-background-success">
+                                      <figure class="image is-48x48">
+                                          <!-- <img src="https://via.placeholder.com/48x48/a9a9a9" alt="Varian 4"> -->
+                                      </figure>
+                                  </div>
+                              </div>
+      
+                              <div class="column is-narrow">
+                                  <div class="variant-item has-background-dark">
+                                      <figure class="image is-48x48">
+                                          <!-- <img src="https://via.placeholder.com/48x48/b5651d" alt="Varian 5"> -->
+                                      </figure>
+                                  </div>
+                              </div>
+      
+                              <div class="column is-narrow">
+                                  <div class="variant-item has-background-danger">
+                                      <figure class="image is-48x48">
+                                          <!-- <img src="https://via.placeholder.com/48x48/000000" alt="Varian 6"> -->
+                                      </figure>
+                                  </div>
+                              </div>
+                          </div>
+                          </ul>
+                      </div>
+                  </div>           
+                </div> 
+              </td>
+              <td style="width: 20%; text-align: center; font-size: 13px; margin-right: 5px;"><br>
+                    <check if="{{ @cart.discount_percent > 0 }}">
+                      <span style="display: block;">
+                        <del>Rp{{ number_format(@cart.price, 0, ',', '.') }}</del> 
+                      </span>
+                      <span id="hargaFinal" style="display: block;">
+                        Rp{{ number_format(@cart.final_price, 0, ',', '.') }}
+                      </span>
+                        <!-- <span class="tag is-success">-{{ @cart.discount_percent }}%</span> -->
+                    </check>
+                    <check if="{{ @cart.discount_percent == 0 }}">
+                      <span  data-cart-id="{{@cart.cart_id}}" style="display: block;">
+                        Rp{{ number_format(@cart.price,0,',','.') }}
+                      </span>
+                    </check>
+                </span>
+              </td>
+                <!-- <form action="{{@BASE}}/cart" method="POST"> -->
+                  <input type="hidden" name="cart_id" value="{{ @cart.cart_id }}">
+                  <!-- Setiap perubahan quantity di-trigger di sini -->
+                  <td style="width: 15%; text-align: center;"><br>
+                    <div class="field has-addons" style="width: 128px; text-align: center;">
+                      <p class="control">
+                        <button 
+                          class="button is-light decrement" 
+                          type="button" 
+                          data-cart-id="{{ @cart.cart_id }}" 
+                          onclick="updateQuantity(this, -1)">-</button>
+                      </p>
+                      <p class="control">
+                        <input 
+                          class="input has-text-centered quantity-input" 
+                          value="{{ @cart.quantity }}" 
+                          min="1"
+                          data-cart-id="{{ @cart.cart_id }}" 
+                          style="font-size: 15px;" 
+                          readonly
+                        />
+                      </p>
+                      <p class="control">
+                        <button 
+                          class="button is-light increment" 
+                          type="button" 
+                          data-cart-id="{{ @cart.cart_id }}" 
+                          onclick="updateQuantity(this, 1)">+</button>
+                      </p>                      
+                    </div>
+                  </td>
+                <!-- </form> -->
+                  <td data-cart-id="{{@cart.cart_id}}" style="width: 15%; text-align: center; color: #d9292b;"><p id= "totalHarga-{{@cart.cart_id}}" style="margin-top: 30px;">Rp{{ number_format(@cart.final_price * @cart.quantity, 0, ',', '.') }}</p></td>
+                <td style="width: 10%; text-align: center;"><br>
+                  <a href="{{@BASE}}/remove/{{ @cart.cart_id}}" class="button is-info is-small" style="text-align: center;">Hapus</a>
+                </td>
+            </tr>
+          </repeat>
+        </tbody>
+      </table>
+    </div>
 
-<div class="box" style="width: 70%; margin: 0 auto; font-size: 14px;">
-  <div class="columns has-text-right">
-      <div class="column is-12">
-          <p>Gratis Ongkir s/d Rp40.000 dengan min. belanja Rp0</p>
+    <div class="box" style="width: 70%; margin: 0 auto; font-size: 14px;">
+      <div class="columns has-text-right">
+          <div class="column is-12">
+            <p>Gratis Ongkir s/d Rp40.000 dengan min. belanja Rp0</p>
+          </div>
       </div>
-  </div>
-  <div class="columns has-text-right">
-      <div class="column is-12">
-          <p>Gratis Ongkir s/d Rp40.000 dengan min. belanja Rp0</p>
+      <div class="columns has-text-right">
+          <div class="column is-12">
+              <p>Gratis Ongkir s/d Rp40.000 dengan min. belanja Rp0</p>
+          </div>
       </div>
-  </div>
-</div>
-<div class="box p-0" style="width: 70%; margin: 0 auto; font-size: 14px;">
-  <div class="column-wrapper">
-      <div class="column is-flex is-justify-content-end">
+    </div>
+    </div>
+
+    <div class="sticky box p-0" style="width: 70%; margin: 0 auto; font-size: 14px;">
+      <div class="column-wrapper">
+        <div class="column is-flex is-justify-content-end">
           <p class="has-text-weight-semibold mr-6">Voucher Gratis</p>
-          <a href="" class="has-text-info">Gunakan/ masukkan kode</a>
-      </div>
-      <hr class="m-0">
-      <div class="column is-flex is-justify-content-end">
-          <p class="has-text-weight-medium mr-6">Tidak ada produk yang dipilih</p>
-          <p class="has-text-grey has-text-weight-bold">-Rp0</p>
-      </div>
-      <hr class="m-0">
-      <div class="column is-flex">
-          <div class="column is-half is-flex is-align-items-center p-0">
-              <input type="checkbox">
-              <p class="ml-5">Pilih Semua(2)</p>
+            <a href="" class="has-text-info">Gunakan/ masukkan kode</a>
+        </div>
+        <hr class="m-0">
+        <div class="column is-flex is-justify-content-end">
+              <p class="has-text-weight-medium mr-6">Tidak ada produk yang dipilih</p>
+              <p class="has-text-grey has-text-weight-bold">-Rp0</p>
+        </div>
+        <hr class="m-0">
+          <div class="column is-flex">
+            <div class="column is-half is-flex is-align-items-center p-0">
+              <input type="checkbox" id="option-all" name="selected_products[]" style="margin-right: 5px; transform: scale(1.2);" onchange="checkAll(this)">
+                <label for="option-all">
+                  <span class="checkbox">
+                    <span class="check"></span>
+                  </span>
+                  <abbr>Pilih Semua ({{@count_product}})</abbr>
+                </label>
               <p class="ml-5">Hapus</p>
               <p class="ml-5 has-text-info">Tambahkan ke Favorit</p>
+            </div>
+            <div class="column is-half is-flex is-justify-content-end is-align-items-center p-0">
+              <p class="mr-1" id="total-products">Total (0 Produk)</p>
+              <p class="mr-3 is-size-4 has-text-info" id="alltotal-price"></p>
+                <button class="button is-info" type="submit" name="checkOut">Checkout</buton>
           </div>
-          <div class="column is-half is-flex is-justify-content-end is-align-items-center p-0">
-              <p class="mr-1">Total (0 Produk)</p>
-              <p class="mr-3 is-size-4 has-text-info">Rp0</p>
-              <a href="{{ @BASE }}/checkout" class="button is-info">Checkout</a>
-          </div>
+        </div>
       </div>
-  </div>
-</div>
+    </div>
+</form>
 <h2 class="title is-5 mt-6" style="margin-left: 200px;">Kamu Mungkin Juga Suka</h2>
 
-
-
 <script>
-    function changeQty(amount) {
-    const qtyInput = document.getElementById("quantityInput");
-    let currentQty = parseInt(qtyInput.value);
-    if (!isNaN(currentQty)) {
-      let newQty = currentQty + amount;
-      if (newQty < 1) newQty = 1; // tidak boleh kurang dari 1
-      qtyInput.value = newQty;
+  var checkboxes = document.querySelectorAll("input[type='checkbox']");
+  function checkAll(myCheckbox){
+    if(myCheckbox.checked == true){
+      checkboxes.forEach(function(checkbox){
+        checkbox.checked = true;
+        checkbox
+      });
     }
-  }
-
-
-  function changeQty(delta) {
-    var input = document.getElementById('quantityInput'); // Ambil elemen input
-    var currentValue = parseInt(input.value); // Ambil nilai saat ini dan ubah ke integer
-
-    // Perbarui nilai input, tetapi tidak kurang dari 1
-    if (currentValue + delta >= 1) {
-      input.value = currentValue + delta;
+    else{
+      checkboxes.forEach(function(checkbox){
+        checkbox.checked = false;
+      });
     }
   }
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // const checkboxes = document.querySelectorAll('.product-checkbox');
+      // const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+      const totalProductsElement = document.getElementById('total-products');
+      // let allProduct = document.getElementById('all-product');
+      // allProduct.textContent = `Pilih Semua (${allCheckboxes})`;
+
+      function updateTotal() {
+          let totalQuantity = 0;
+          let totalHarga = document.getElementById('alltotal-price');
+          totalHarga.textContent = `Rp0`;
+          let totalPrice = 0;
+
+          
+          checkboxes.forEach(function(checkbox) {
+              if (checkbox.checked) {
+                  let price = parseFloat(checkbox.getAttribute('data-price'));
+                  let quantity = parseInt(checkbox.getAttribute('data-quantity'));
+                  let dataProduct = parseInt(checkbox.getAttribute('data-product'));
+                  console.log(quantity)
+                  
+                  dataProduct = 1;
+                  totalQuantity += dataProduct;
+                  totalPrice += price * quantity;
+              }
+          });
+          // Update the display text for total products and total price
+          totalProductsElement.textContent = `Total (${totalQuantity} produk)`;
+          totalHarga.textContent = `Rp${totalPrice.toLocaleString('id-ID')}`;
+      }
+      // Event listener for all checkboxes
+      checkboxes.forEach(function(checkbox) {
+          checkbox.addEventListener('change', updateTotal);
+      });
+
+      // Call updateTotal initially in case some products are pre-selected
+      updateTotal();
+  });
+</script>
+
+<script>
+
+    function updateQuantity(button, change) {
+      const cartId = button.getAttribute('data-cart-id');
+      const quantityInput = button.closest('tr').querySelector('.quantity-input');
+      let currentQuantity = parseInt(quantityInput.value);
+      const newQuantity = currentQuantity + change;
+      let totalHarga = parseFloat(document.getElementById(`totalHarga-${cartId}`));
+
+      if (newQuantity < 1) return alert('Quantity tidak bisa kurang dari 1');
+
+      console.log(`cartId: ${cartId}, newQuantity: ${newQuantity}`);
+
+      fetch('{{@BASE}}/cart', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+              action: 'update',
+              cart_id: cartId,
+              quantity: newQuantity
+          })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+        console.log("Respons dari server:", data); // Menambahkan log untuk respons
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        // Update kuantitas input
+        quantityInput.value = newQuantity;
+
+        // Mengupdate total harga
+        // const totalHargaElement = document.getElementById('alltotal-price');
+        // let hargaFinal = document.getElementById('hargaFinal-{{@cart.price}}-{{@cart.cart_id}}').innerText;
+        // console.log(`ini harga final : ${hargaFinal}`)
+        subtotalProduct = (data.subtotal).toLocaleString('id-ID');
+        document.getElementById(`totalHarga-${cartId}`).textContent = `Rp${subtotalProduct}`
+        console.log(`ini total harga : ${data.subtotal}`)
+      
+          // if (totalHargaElement) {
+          //     if (data.total_price) {
+          //         totalHargaElement.textContent = `Rp${data.total_price.toLocaleString('id-ID')}`;
+          //         console.log(`Total harga diperbarui menjadi: Rp${data.total_price.toLocaleString('id-ID')}`);
+          //     } else {
+          //         console.error('Total price tidak ditemukan dalam respons');
+          //     }
+          // } else {
+          //     console.error('Elemen total harga tidak ditemukan');
+          //   }
+      })
+
+      .catch(error => {
+          console.error('Error:', error);
+          alert('Terjadi kesalahan saat mengupdate kuantitas.');
+      });
+  }
+
+</script>
+
+
