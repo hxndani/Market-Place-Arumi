@@ -221,128 +221,95 @@
 <h2 class="title is-5 mt-6" style="margin-left: 200px;">Kamu Mungkin Juga Suka</h2>
 
 <script>
-  var checkboxes = document.querySelectorAll("input[type='checkbox']");
-  function checkAll(myCheckbox){
-    if(myCheckbox.checked == true){
-      checkboxes.forEach(function(checkbox){
-        checkbox.checked = true;
-        checkbox
-      });
-    }
-    else{
-      checkboxes.forEach(function(checkbox){
-        checkbox.checked = false;
-      });
-    }
-  }
-</script>
-
-<script>
   document.addEventListener('DOMContentLoaded', function() {
-      // const checkboxes = document.querySelectorAll('.product-checkbox');
-      // const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
-      const totalProductsElement = document.getElementById('total-products');
-      // let allProduct = document.getElementById('all-product');
-      // allProduct.textContent = `Pilih Semua (${allCheckboxes})`;
+      var checkboxes = document.querySelectorAll("input[type='checkbox']");
+      var productCheckboxes = document.querySelectorAll('.product-checkbox');
+      var totalProductsElement = document.getElementById('total-products');
+      var totalHargaElement = document.getElementById('alltotal-price');
 
-      function updateTotal() {
-          let totalQuantity = 0;
-          let totalHarga = document.getElementById('alltotal-price');
-          totalHarga.textContent = `Rp0`;
-          let totalPrice = 0;
-
-          
-          checkboxes.forEach(function(checkbox) {
-              if (checkbox.checked) {
-                  let price = parseFloat(checkbox.getAttribute('data-price'));
-                  let quantity = parseInt(checkbox.getAttribute('data-quantity'));
-                  let dataProduct = parseInt(checkbox.getAttribute('data-product'));
-                  console.log(quantity)
-                  
-                  dataProduct = 1;
-                  totalQuantity += dataProduct;
-                  totalPrice += price * quantity;
-              }
-          });
-          // Update the display text for total products and total price
-          totalProductsElement.textContent = `Total (${totalQuantity} produk)`;
-          totalHarga.textContent = `Rp${totalPrice.toLocaleString('id-ID')}`;
+      // Fungsi untuk memilih atau membatalkan semua checkbox
+      function checkAll(myCheckbox){
+        checkboxes.forEach(function(checkbox){
+          checkbox.checked = myCheckbox.checked;
+        });
+        updateTotal();
       }
-      // Event listener for all checkboxes
-      checkboxes.forEach(function(checkbox) {
+
+      // Fungsi untuk memperbarui total produk dan harga berdasarkan checkbox yang dipilih
+      function updateTotal() {
+        let totalQuantity = 0;
+        let totalPrice = 0;
+
+        productCheckboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                let price = parseFloat(checkbox.getAttribute('data-price'));
+                let quantity = parseInt(checkbox.getAttribute('data-quantity'));
+                totalQuantity++;
+                totalPrice += price * quantity;
+            }
+        });
+
+        // Update jumlah produk dan total harga
+        totalProductsElement.textContent = `Total (${totalQuantity} produk)`;
+        totalHargaElement.textContent = `Rp${totalPrice.toLocaleString('id-ID')}`;
+      }
+
+      // Event listener untuk semua checkbox produk
+      productCheckboxes.forEach(function(checkbox) {
           checkbox.addEventListener('change', updateTotal);
       });
 
-      // Call updateTotal initially in case some products are pre-selected
+      // Jalankan sekali untuk menghitung jika ada produk yang sudah dipilih saat halaman dimuat
       updateTotal();
-  });
-</script>
 
-<script>
+      // Fungsi untuk memperbarui kuantitas produk
+      window.updateQuantity = function(button, change) {
+        const cartId = button.getAttribute('data-cart-id');
+        const quantityInput = button.closest('tr').querySelector('.quantity-input');
+        let currentQuantity = parseInt(quantityInput.value);
+        const newQuantity = currentQuantity + change;
 
-    function updateQuantity(button, change) {
-      const cartId = button.getAttribute('data-cart-id');
-      const quantityInput = button.closest('tr').querySelector('.quantity-input');
-      let currentQuantity = parseInt(quantityInput.value);
-      const newQuantity = currentQuantity + change;
-      let totalHarga = parseFloat(document.getElementById(`totalHarga-${cartId}`));
+        if (newQuantity < 1) return 1;
 
-      if (newQuantity < 1) return alert('Quantity tidak bisa kurang dari 1');
+        fetch('{{@BASE}}/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                action: 'update',
+                cart_id: cartId,
+                quantity: newQuantity
+            })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
 
-      console.log(`cartId: ${cartId}, newQuantity: ${newQuantity}`);
+            // Update kuantitas input
+            quantityInput.value = newQuantity;
 
-      fetch('{{@BASE}}/cart', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-              action: 'update',
-              cart_id: cartId,
-              quantity: newQuantity
-          })
-      })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then(data => {
-        console.log("Respons dari server:", data); // Menambahkan log untuk respons
+            // Update total harga produk
+            document.getElementById(`totalHarga-${cartId}`).textContent = `Rp${(data.subtotal).toLocaleString('id-ID')}`;
 
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
+            // Update total keseluruhan (jika ada logika tambahan yang ingin kamu masukkan di sini)
+            updateTotal();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat mengupdate kuantitas.');
+        });
+      }
 
-        // Update kuantitas input
-        quantityInput.value = newQuantity;
-
-        // Mengupdate total harga
-        // const totalHargaElement = document.getElementById('alltotal-price');
-        // let hargaFinal = document.getElementById('hargaFinal-{{@cart.price}}-{{@cart.cart_id}}').innerText;
-        // console.log(`ini harga final : ${hargaFinal}`)
-        subtotalProduct = (data.subtotal).toLocaleString('id-ID');
-        document.getElementById(`totalHarga-${cartId}`).textContent = `Rp${subtotalProduct}`
-        console.log(`ini total harga : ${data.subtotal}`)
-      
-          // if (totalHargaElement) {
-          //     if (data.total_price) {
-          //         totalHargaElement.textContent = `Rp${data.total_price.toLocaleString('id-ID')}`;
-          //         console.log(`Total harga diperbarui menjadi: Rp${data.total_price.toLocaleString('id-ID')}`);
-          //     } else {
-          //         console.error('Total price tidak ditemukan dalam respons');
-          //     }
-          // } else {
-          //     console.error('Elemen total harga tidak ditemukan');
-          //   }
-      })
-
-      .catch(error => {
-          console.error('Error:', error);
-          alert('Terjadi kesalahan saat mengupdate kuantitas.');
+      // Mengikat fungsi checkAll ke checkbox "pilih semua"
+      document.getElementById('option-all').addEventListener('change', function() {
+        checkAll(this);
       });
-  }
-
+  });
 </script>
 
 
