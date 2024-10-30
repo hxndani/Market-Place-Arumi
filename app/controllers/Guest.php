@@ -19,14 +19,6 @@ class Guest extends BaseController
         echo Template::instance()->render('marketplace/login/footer.htm');
         // echo Template::instance()->render('marketplace/basket/card_detail_barang.htm');
     }
-
-    // function daftar($f3){
-    //     echo Template::instance()->render('marketplace/login/header.htm');
-    //     echo Template::instance()->render('marketplace/login/daftar.htm');
-    //     echo Template::instance()->render('marketplace/login/footer.htm');
-    //     // echo Template::instance()->render('marketplace/basket/card_detail_barang.htm');
-    // }
-
     function datadiri($f3)
     {
         echo Template::instance()->render('marketplace/login/header.htm');
@@ -61,16 +53,18 @@ class Guest extends BaseController
             $product = $_product_display->getProductDetail($id);
             $_member = new _member($this->db);
             $members = $_member->load(array('username=?', $f3->get('SESSION.user')));
-        
-            // Cek jika produk ditemukan
-            // if (!$_product_display->dry()) {
-                // mengkonversi object ke array
-                // $product = $_product_display->cast();
-        
-                // ngiirim data produck ke view
-                $f3->set('products', $product);
-                $f3->set('members', $members);
-                // print_r($product);
+
+            foreach($product as $item){
+                if($item['end_date'] == True){
+                    $end_date = $item['end_date'];
+                    $promo = $this->checkPromo($end_date);
+                    $f3->set('promo', $promo);
+                }     
+            }
+                
+            // ngiirim data produck ke view
+            $f3->set('products', $product);
+            $f3->set('members', $members);
                 
             echo Template::instance()->render('header.htm');
             echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
@@ -79,15 +73,23 @@ class Guest extends BaseController
             echo Template::instance()->render('marketplace/basket/card_review_barang.htm');
             echo Template::instance()->render('footer.htm');
 
-        // } else{
-        //     $type = false;
-        //     $message = 'Produk tidak ditemukan';
-        //     $this->infoShow($type,$message);
-        // }
-
     }
-    
-    
+
+    private function checkPromo($end_date){
+        $promo_time = explode("-",$end_date);
+        $bulan = $promo_time[1];
+        $tanggal = $promo_time[2];
+        $tahun = $promo_time[0];
+
+        $promo = mktime(0,0,0, $bulan, $tanggal, $tahun);
+        $now = time();
+        if($now > $promo){
+            return false;
+        }
+
+        return true;
+    }
+
     function cart($f3) {
         $session = $f3->get('SESSION.user');
 
@@ -256,91 +258,63 @@ class Guest extends BaseController
         echo Template::instance()->render('marketplace/merk/card_kategori_barang.htm');
         echo Template::instance()->render('footer.htm');
     }
-
-    // profil
-    function profil($f3){
+    function profil($f3) {
         $session = $f3->get('SESSION.user');
         $_access = new _access($this->db);
         $_member = new _member($this->db);
-        
         $_member->load(array('username=?', $session));
-        
-        if($f3->exists('POST.submit')){
-            
+    
+        // cek apakah ada submit dari tombol simpan
+        if ($f3->exists('POST.submit')) {
+            $nama_file = null;
+            // cek apakah ada file yang diupload
+            if ($_FILES['gambar']['error'] !== 4) {
+                $nama_file = $_FILES['gambar']['name'];
+                $tmp_name = $_FILES['gambar']['tmp_name'];
+                $error = $_FILES['gambar']['error'];
+                $ukuran_file = $_FILES['gambar']['size'];
+    
+                // Proses upload gambar
+                $upload_result = $_member->uploadGambar($f3, $session, $nama_file, $tmp_name, $error, $ukuran_file);
+            }
+    
             $update_name = $f3->get('POST.name');
             $update_phone = $f3->get('POST.phone');
-            $update_toko = $f3->get('POST.toko');
             $update_gender = $f3->get('POST.gender');
-            //$update_username = $f3->get('POST.username');
             $update_email = $f3->get('POST.email');
             $update_tanggal_lahir = $f3->get('POST.tanggal_lahir');
-
-            //upload gambar
-            $nama_file = $_FILES['gambar']['name'];
-            $tmp_name = $_FILES['gambar']['tmp_name'];
-            $error = $_FILES['gambar']['error'];
-            $ukuran_file = $_FILES['gambar']['size'];
-
-            $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-            $ekstensiGambar = explode('.', $nama_file);
-            $ekstensiGambar = strtolower(end($ekstensiGambar));
-            if( !in_array($ekstensiGambar, $ekstensiGambarValid)){
-                $f3->set('error', 'Please upload a valid file (JPG/JPEG/PNG)!');
-                
+    
+            $_member->updateProfile($session, $update_name, $update_phone, $update_gender, $update_email, $update_tanggal_lahir);
+    
+            // Cek apakah request dari AJAX
+            if ($f3->get('AJAX')) {
+                echo json_encode([
+                    'success' => true,
+                    'name' => $update_name,
+                    'phone' => $update_phone,
+                    'gender' => $update_gender,
+                    'email' => $update_email,
+                    'tanggal_lahir' => $update_tanggal_lahir,
+                    'gambar' => $nama_file ? $nama_file : null // Kirim nama gambar jika diupload
+                ]);
+                return;
             }
-            else if($ukuran_file > 100000){
-                $f3->set('error', 'Ukuran file terlalu besar!');
-                
-            }
-            // lolos pengecekan, gambar siap diupload
-            // generate name gambar baru
-            $nama_file_baru = uniqid();
-            $nama_file_baru .= '.';
-            $nama_file_baru .= $ekstensiGambar;
-            move_uploaded_file($tmp_name, 'public/images/uploadedFile/' . $nama_file_baru);
-            
-            // $_member->username = $update_username;
-            $_member->email = $update_email;
-            $_member->name = $update_name;
-            $_member->phone = $update_phone;
-            $_member->toko = $update_toko;
-            $_member->gambar = $nama_file_baru;
-            $_member->gender = $update_gender;
-            $_member->tanggal_lahir = $update_tanggal_lahir;
-            $_member->update();
-            
-            $f3->set('members', $_member);
-
-            
+    
+            // Jika bukan AJAX, lakukan proses reload biasa
+            $_member->load(array('username=?', $session));
         }
-        else{
-                if($_member->load(array('username=?',$session)) == null){
-
-                    $_member->gender = "";
-                    $_member->tanggal_lahir = null;
-                    $_member->save();
-
-                    $f3->set('members', $_member->find());
-                    
-
-                }else{
-                    $_member->load(array('username=?', $session));
-                    $f3->set('members', $_member);
-
-                }
-            }   
+    
+        // Jika tidak ada submit dari tombol simpan
+        $f3->set('members', $_member);
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('user/side_bar.htm');
         echo Template::instance()->render('user/card_profil.htm');
         echo Template::instance()->render('footer.htm');
-
     }
-    function uploadGambar($f3){
-
-        
-
-    }
+    
+    
+    
 
     function bank($f3)
     {
@@ -404,13 +378,14 @@ class Guest extends BaseController
     function checkout($f3){
         
         $session = $f3->get('SESSION.user');
+        $user_id = $f3->get('SESSION.user_id');
+        $_member = new _member($this->db);
+        $members = $_member->load(array('username=?', $session));
         if (!$session) {
             $f3->reroute('/login');
         }
 
-        
         $selected_products = $f3->get('POST.selected_products');
-
         if(!$selected_products){
             $f3->reroute('/cart');
         }
@@ -421,23 +396,50 @@ class Guest extends BaseController
             $product = $cart->getSelectedProducts($selected_products);
             $checkoutProducts = $product;
         }
-        
-        $_member = new _member($this->db);
-        $members = $_member->load(array('username=?', $session));
-        // $cart = new Cart($this->db);
-        // $checkout_products = $cart->getSelectedProducts($selected_products);
-        
+        // check user udah klik tombol buat pesanan apa belum
+        $pesanan = $f3->get('POST.buat_pesanan');
+        if($pesanan){
+            $length = count($checkoutProducts);
+            $total_price = 0;
+            $orders = new Orders($this->db);
+            $orders->user_id = $user_id;
+            $orders->save();
+            
+            for($i=0; $i<$length; $i++){
+                $order_detail = new Order_detail($this->db);
+                if($checkoutProducts[$i]['final_price'] > 0){
+                    $price = $checkoutProducts[$i]['final_price'];
+                    $quantity = $checkoutProducts[$i]['quantity'];
+                    $subtotal = $price * $quantity;
+                }
+                else{
+                    $price = $checkoutProducts[$i]['price'];
+                    $quantity = $checkoutProducts[$i]['quantity'];
+                    $subtotal = $price * $quantity;
+                }
+                $order_id = $orders->id;
+                $product_id = $checkoutProducts[$i]['product_id'];
+                $order_detail->order_detail($order_id, $product_id, $quantity, $price, $subtotal);
+                $total_price += $subtotal;
+            }
+            $orders->load(array('user_id=?', $user_id));
+            $orders->total_price = $total_price;
+            $orders->save();
+        }
+
         $f3->set('SESSION.checkout_products', $checkoutProducts);
         $f3->set('members', $members);
-        
+    
         echo Template::instance()->render('header.htm');
-        // print_r($checkoutProducts);
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('marketplace/basket/card_checkout_barang.htm');
-        
-
         echo Template::instance()->render('footer.htm');
 
+    }
+
+    function payment($f3)
+    {
+        
     }
 
     function detail_pengiriman($f3)
