@@ -9,19 +9,22 @@ class Access extends BaseController
 
         if($f3->exists('POST.submit')) {
 
-            $username = $f3->get('POST.username');
-            $email = $f3->get('POST.email');
-            $password = $f3->get('POST.password');
-            $password2 = $f3->get('POST.password2');
+            $username = htmlspecialchars($f3->get('POST.username'));
+            $email = htmlspecialchars($f3->get('POST.email'));
+            $password = htmlspecialchars($f3->get('POST.password'));
+            $password2 = htmlspecialchars($f3->get('POST.password2'));
             $_access = new _access($this->db);
 
             if ($this->checkUsername($username) or $this->checkEmail($email)){
                 $f3->set('error', 'Email/Username sudah digunakan!');
             } 
             else if($password !== $password2){
-                $f3->set('error', 'Konfirmasi password tidak cocok');
+                $f3->set('error', 'Konfirmasi password tidak cocok.');
             }
-                
+            else if(strlen($password) < 8){
+                $f3->set('error', 'Password minimal 8 karakter.');
+            }
+            
             else {
                 $ref = $this->uniqidReal();
                 $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -32,8 +35,7 @@ class Access extends BaseController
                 "','2','1')";
                 $new = $_access->newAccess($data);
                 // $f3->set('SESSION.email',  $email);
-
-                $this->$f3->reroute('/login');
+                $f3->reroute('/login');
             }
             echo Template::instance()->render('marketplace/login/header.htm');
             echo Template::instance()->render('marketplace/login/datadiri.htm');
@@ -48,16 +50,17 @@ class Access extends BaseController
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
-        $username = $f3->get('POST.username');
-        $password = $f3->get('POST.password');
-        $email = $f3->get('POST.email');
+        $username = htmlspecialchars($f3->get('POST.username'));
+        $password =$f3->get('POST.password');
+        $email =$f3->get('POST.email');
 
         if ($this->checkUsername($username) || $this->checkEmail($email)) {
             if ($this->checkCredentialsByUsername($username, $password) || $this->checkCredentialsByEmail($username, $password)) {
                 $_access = new _access($this->db);
-                $level = $_access->getLevelByUsername($username) | $_access->getLevelByEmail($email);
+                $level = $_access->getLevelByUsername($username) | $_access->getLevelByEmail($username);
                 
                 
+                $_access->load(array('username=?', $username ));
                 $user_id = $_access['id'];
                 $f3->set('SESSION.level', $level);
                 $f3->set('SESSION.user', $username);
@@ -66,15 +69,23 @@ class Access extends BaseController
 
                 $f3->reroute('/');
             } else {
-                $type = false;
-                $message = "Please check your email or password.";
-                $this->infoShow($type, $message);
+                // $type = false;
+                // $message = "Please check your email or password";
+                // $this->infoShow($type, $message);
+                $f3->set('error', 'Username/password salah!');
+                
             }
         } else {
-            $type = false;
-            $message = "Account not found!";
-            $this->infoShow($type, $message);
+            // $type = false;
+            // $message = "Account not found!";
+            // $this->infoShow($type, $message);
+            $f3->set('error', 'Account not found!');
+            
         }
+        echo Template::instance()->render('marketplace/login/header.htm');
+        echo Template::instance()->render('marketplace/login/login.htm');
+        echo Template::instance()->render('marketplace/login/footer.htm');
+    
     }
 
 
