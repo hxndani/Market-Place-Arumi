@@ -560,3 +560,236 @@ input:checked + .slider:before {
   border: 1px solid #ccc;
   z-index: 1000;
 }
+
+.images {
+  display: flex;
+  transition: 1s;
+  width: 100%;
+}
+
+.images img {
+  width: 100%;
+}
+
+.wrapper {
+  width: 800px;
+  margin: auto;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+#slide-1:target ~ .images {
+  margin-left: 0px;
+}
+
+#slide-2:target ~ .images {
+  margin-left: -100%;
+}
+
+#slide-3:target ~ .images {
+  margin-left: -200%;
+}
+
+#slide-4:target ~ .images {
+  margin-left: -300%;
+}
+
+#slide-5:target ~ .images {
+  margin-left: -400%;
+}
+
+.navigation {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin-top: -50px;
+}
+
+.navigation .nav-link {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  background-color: #dedede;
+  border-radius: 50%;
+  margin: 0.5px;
+  transition: background-color 0.5s;
+}
+
+.navigation .nav-link.active {
+  background-color: #00adef;
+}
+
+.navigation .nav-link:hover {
+  background-color: #00adef;
+}
+
+.prev-btn {
+  opacity: 90;
+}
+
+.prev-btn a {
+  transition: 0.5s;
+}
+
+.next-btn {
+  opacity: 90;
+}
+
+.next-btnc {
+  opacity: 90;
+}
+
+.prev-btn a {
+  transition: 0.5s;
+}
+
+.prev-btnc {
+  opacity: 90;
+}
+
+.wrapper:hover .prev-btn,
+.wrapper:hover .next-btn {
+  opacity: 1;
+}
+
+/* halaman user */
+.member-area {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.member-profil {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  margin-right: -7px;
+  padding: 0;
+  display: inline-block;
+}
+
+.member-navbar-item {
+  font-size: 13px;
+  color: white;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.member-navbar-item:hover {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.member-navbar-item {
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-content li {
+  padding: 8px 16px;
+}
+
+.dropdown-content li a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.dropdown-content li a:hover {
+  color: #00adef;
+}
+
+.change-profil {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: -7px;
+  padding: 0;
+  display: inline-block;
+}
+
+.profile-container {
+  display: flex; /* Mengatur elemen di dalamnya menjadi horizontal */
+  align-items: center; /* Vertikal alignment menjadi tengah */
+}
+
+.profile-container img {
+  margin-right: 10px; /* Jarak antara gambar dan nama */
+  width: 50px; /* Atur ukuran gambar */
+  height: 50px;
+  border-radius: 50%; /* Membuat gambar menjadi lingkaran jika ingin */
+}
+
+.profile-container a {
+  margin-bottom: -15px;
+  font-size: 13px;
+  font-weight: 700;
+  color: black;
+}
+
+.profile-container h3 {
+  margin-bottom: -15px;
+  margin-left: -48px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.custom-title {
+  font-size: 15px;
+  font-weight: 500;
+}
+.custom-Button {
+  background-color: red;
+}
+
+div.sticky.box{
+  position: sticky;
+  bottom: 0;
+  width: 70%;
+  margin: 0 auto;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.subtotal{
+  margin-top: 200px;
+}
+
+.konten{
+  display: none;
+}
+.konten.active {
+  display: block;
+  background-color: transparent; /* Atau sesuaikan dengan kebutuhan */
+}
+
+/* .image{
+  float:left
+} */
