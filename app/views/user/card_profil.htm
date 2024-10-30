@@ -2,7 +2,7 @@
     <h1 class="title is-4">Profil Saya</h1>
     <p class="subtitle is-6">Kelola informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun</p>
     <hr>
-    <form action="{{ @BASE }}/profil" method="POST" enctype="multipart/form-data">
+    <form id="profileForm" action="{{ @BASE }}/profil" method="POST" enctype="multipart/form-data">
         <div class="columns">
             <div class="column is-three-quarters">
                 <div class="field">
@@ -35,13 +35,6 @@
                     </div>
                 </div>
         
-                <div class="field">
-                    <label class="label">Nama Toko</label>
-                    <div class="control">
-                        <input class="input" type="text" value="{{@members.toko}}" name="toko">
-                    </div>
-                </div>
-
                 <div class="field">
                     <label class="label">Jenis Kelamin</label>
                     <div class="control">
@@ -88,7 +81,7 @@
         
                 <div class="field">
                     <div class="control">
-                        <button type="submit" name="submit" class="button is-info">Simpan</button>
+                        <button type="button" id="updateProfile" name="submit" class="button is-info">Simpan</button>
                     </div>
                 </div>
             </div>
@@ -112,3 +105,69 @@
         </div>
     </div>
 </section>
+
+<script>
+    $('#form-profil').on('submit', function(e) {
+    e.preventDefault(); // Mencegah form reload
+
+    var formData = new FormData(this); // Menggunakan FormData untuk menangani file upload
+
+    $.ajax({
+        url: '/profil', // URL ke controller profil
+        type: 'POST',
+        data: formData,
+        contentType: false, // Harus false untuk FormData
+        processData: false, // Harus false untuk FormData
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.success) {
+                // Update tampilan profil jika berhasil
+                $('#profil-nama').text(data.name);
+                $('#profil-email').text(data.email);
+                $('#profil-phone').text(data.phone);
+                $('#profil-gender').text(data.gender);
+                $('#profil-tanggal_lahir').text(data.tanggal_lahir);
+
+                if (data.gambar) {
+                    $('#profil-gambar').attr('src', '/public/images/uploadedFile/' + data.gambar);
+                }
+            } else {
+                alert('Gagal menyimpan profil');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('Error: ' + xhr.responseText);
+        }
+    });
+});
+
+</script>
+
+<script src="/dist/sweetalert2.all.min.js">
+</script>
+<script>
+    const btn = document.getElementById('updateProfile');
+    const form = document.getElementById('profileForm');
+  
+    // Tambahkan event listener pada button
+    btn.addEventListener('click', function() {
+      Swal.fire({
+        icon: "success",
+        title: "Profil telah berhasil diubah",
+        showConfirmButton: false,
+        timer:3000,
+        width: '600px',
+        customClass: {
+          title: 'custom-title',
+        },
+      }).then((result) => {
+        // Setelah SweetAlert ditutup, submit form secara programatis
+        if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+          form.submit();  // Submit the form programmatically
+        }
+      });
+    });
+  </script>
+    
+    
+    
