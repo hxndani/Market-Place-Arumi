@@ -1,0 +1,80 @@
+<section class="section grey">
+    <div class="container column is-9 mainbar">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                <div class="profile-container">
+                    <img src="/public/images/profil.webp" alt="Profile" class="change-profil">
+                    <a class="change-profil is-size-6" >{{ @SESSION.user }}</a>
+                    <a href="{{@BASE}}/profil" class="is-size-6"><h3>Ubah Profil</h3></a>
+                </div>
+                <br>
+                <aside class="menu is-size-6">
+                    <div class="sidebar" style="font-weight: 500;">
+                        <a id="akunsaya" href="#akunsaya">Akun Saya</a>
+                        <div class="sub-sidebar" id="sub1" style="font-weight: 400; display: none;">
+                            <a href="{{@BASE}}/profil" id="profil">Profil</a>
+                            <a href="{{@BASE}}/bank" id="bank">Bank dan Kartu</a>
+                            <a href="{{@BASE}}/alamat" id="alamat">Alamat</a>
+                            <a href="" id="notifikasi">Pengaturan Notifikasi</a>
+                            <a href="" id="privasi">Pengaturan Privasi</a>
+                        </div>
+                
+                        <a href="{{@BASE}}/pengiriman" id="pengiriman">Pesanan Saya</a>
+                        
+                        <a id="notif" href="#notif">Notifikasi</a>
+                        <div class="sub-sidebar" id="sub2" style="font-weight: 400; display: none;">
+                            <a href="{{@BASE}}/status" id="status">Status Pesanan</a>
+                            <a href="{{@BASE}}/promo" id="promo">Promo Arumi</a>
+                            <a href="{{@BASE}}/info" id="info">Info Arumi</a>
+                        </div>
+                
+                        <a href="{{@BASE}}/voucher" id="voucher">Voucher Saya</a>
+                    </div>
+                </aside>
+                </div>
+                
+                <script>
+                    // Fungsi untuk mengatur kelas 'active' pada elemen yang dipilih
+                    function setActiveMenu(activeId, subSidebarId) {
+                        const subSidebar = document.getElementById(subSidebarId);
+                        const mainLinks = document.querySelectorAll('.sidebar > a');
+
+                        subSidebar.style.display = subSidebar.style.display === "none" ? "block" : "none";
+                        mainLinks.forEach(link => link.classList.remove('active')); // Hapus kelas 'active' dari semua link
+                        document.getElementById(activeId).classList.add('active'); // Tambahkan 'active' pada elemen yang diklik
+                    }
+                
+                    // Fungsi untuk memuat status aktif dari hash di URL
+                    function loadActiveMenu() {
+                        const hash = window.location.hash.substring(1); // Ambil hash dan hapus tanda #
+                        if (hash) {
+                            setActiveMenu(hash); // Set elemen aktif jika ada hash
+                        }
+                    }
+                    setActiveMenu("akunsaya", "sub1");
+                    setActiveMenu("notif", "sub2");
+                    
+                    // Event listener untuk elemen pengiriman
+                    document.getElementById("pengiriman").addEventListener("click", function () {
+                        setActiveMenu("pengiriman"); // Tambahkan kelas aktif
+                    });
+                
+                    // Event listener untuk elemen voucher
+                    document.getElementById("voucher").addEventListener("click", function () {
+                        setActiveMenu("voucher"); // Tambahkan kelas aktif
+                    });
+                
+                    // Muat status aktif saat halaman dimuat
+                    loadActiveMenu();
+                
+                    // Tambahkan event listener untuk menangani perubahan hash
+                    window.addEventListener('hashchange', loadActiveMenu);
+                </script>
+                
+                <!-- <style>
+                    .active {
+                        color: blue; /* Sesuaikan warna atau gaya lainnya sesuai kebutuhan */
+                        font-weight: bold; /* Buat teks menjadi tebal saat aktif */
+                    }
+                </style> -->
+                
