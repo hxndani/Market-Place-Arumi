@@ -1,61 +1,37 @@
 <!-- for desktop -->
 <section class="section size-gap grey is-hidden-touch">
   <div class="container column is-9 box mb-0">
+    <repeat group="{{@products}}" value="{{@product}}">
     <div class="product-container">
       <div class="product-image columns">
         <div class="column">
           <div class="">
+            
             <figure class="image is-1by1 slider-img-product">
-              <img
-                id="img-1-desktop"
-                class="gambar-produk-desktop"
-                src=""
-                alt="Product Image"
-              />
-              <img id="img-2-desktop" src="" alt="Product Image" />
-              <img id="img-3-desktop" src="" alt="Product Image" />
-              <img id="img-4-desktop" src="" alt="Product Image" />
-              <img id="img-5-desktop" src="" alt="Product Image" />
+              <img id="img-1-desktop" src="{{@BASE}}/public/images/{{@product.image}}" alt="{{@product.name}}">
+              <img id="img-2-desktop" src="" alt="Product Image">
+              <img id="img-3-desktop" src="" alt="Product Image">
+              <img id="img-4-desktop" src="" alt="Product Image">
+              <img id="img-5-desktop" src="" alt="Product Image">
             </figure>
           </div>
 
           <div class="columns mt-2 px-1 navigation-button">
-            <div class="column dot p-2 active">
-              <img
-                class="gambar-produk-desktop"
-                src=""
-                onclick="changeSlide(0)"
-                alt="Product Thumbnail"
-              />
-            </div>
-            <div class="column dot p-2">
-              <img
-                src="{{@BASE}}/public/images/2.jpg"
-                onclick="changeSlide(1)"
-                alt="Product Thumbnail"
-              />
-            </div>
-            <div class="column dot p-2">
-              <img
-                src="{{@BASE}}/public/images/3.jpg"
-                onclick="changeSlide(2)"
-                alt="Product Thumbnail"
-              />
-            </div>
-            <div class="column dot p-2">
-              <img
-                src="{{@BASE}}/public/images/4.jpg"
-                onclick="changeSlide(3)"
-                alt="Product Thumbnail"
-              />
-            </div>
-            <div class="column dot p-2">
-              <img
-                src="{{@BASE}}/public/images/5.jpg"
-                onclick="changeSlide(4)"
-                alt="Product Thumbnail"
-              />
-            </div>
+              <div class="column dot p-2 active">
+                  <img class="" src="{{@BASE}}/public/images/{{@product.image}}" onclick="changeSlide(0)" alt="Product Thumbnail">
+              </div>
+              <div class="column dot p-2">
+                  <img src="{{@BASE}}/public/images/2.jpg" onclick="changeSlide(1)" alt="Product Thumbnail">
+              </div>
+              <div class="column dot p-2">
+                <img src="{{@BASE}}/public/images/3.jpg" onclick="changeSlide(2)" alt="Product Thumbnail">
+              </div>
+              <div class="column dot p-2">
+                <img src="{{@BASE}}/public/images/4.jpg" onclick="changeSlide(3)" alt="Product Thumbnail">
+              </div>
+              <div class="column dot p-2">
+                <img src="{{@BASE}}/public/images/5.jpg" onclick="changeSlide(4)" alt="Product Thumbnail">
+              </div>
           </div>
           <div class="columns">
             <div class="column">
@@ -75,9 +51,11 @@
         </div>
 
         <div class="column">
+          <!-- <repeat group="{{@products}}" value="{{@product}}"> -->
           <div class="product-details has-text-left">
             <!-- <h1 class="title is-size-4">Cover Radiator Vario 125 arm</h1> -->
-            <h1 class="title is-size-4">{{ @product.name }}</h1>
+            <!-- <h1 class="title is-size-4">{{ @product.name }}</h1> -->
+            <h1 id="nama-produk-desktop" class="title is-size-4"></h1>
             <p>
               <span class="icon-text">
                 <span class="icon">
@@ -89,13 +67,16 @@
             </p>
 
             <p>
-              <span class="price-old has-text-dark"
-                ><del>$1,322.99</del> {{@product.price}}</span
-              >
-              <span
-                id="harga-desktop"
-                class="price-new has-text-danger is-size-3 title"
-              ></span>
+              <check if="{{ !empty(@promo) }}">
+                <true>
+                  <span id="harga-desktop" class="price-new has-text-danger is-size-4 title">Rp{{number_format(@product.promo_price,0,',','.')}}</span>
+                  <span class="price-old has-text-dark"><del>Rp{{number_format(@product.price,0, ',', '.')}}</del></span>
+                  <span class="has-text-danger is-sm">{{@product.discount_percent}}%</span>
+                </true>
+                <false>
+                  <span id="harga-desktop" class="price-new has-text-danger is-size-3 title">Rp{{number_format(@product.price,0,',','.')}}</span>
+                </false>
+              </check>
             </p>
             <table class="table is-fullwidth is-size-6">
               <tbody>
@@ -177,9 +158,10 @@
               </div>
             </div>
             <form
-              action="{{ @BASE }}/addProduct/{{ @product.id }}"
+              action="{{ @BASE }}/addProduct/{{@product.id}}" id="productForm"
               method="POST"
             >
+              <input type="hidden" name="product_id" value="{{ @product.id }}">
               <div class="quantity column has-text-left level">
                 <label class="label">Kuantitas:</label>
                 <div class="field has-addons">
@@ -195,7 +177,7 @@
                   <p class="control">
                     <input
                       class="input"
-                      name="qty"
+                      name="quantity"
                       type="number"
                       value="1"
                       min="1"
@@ -219,37 +201,41 @@
               <div
                 class="product-actions column has-text-right buttons are-normal"
               >
-                <button
-                  type="submit"
-                  class="button is-info is-outlined icofont-shopping-cart py-3"
-                  onclick="Swal.fire('Produk telah ditambahkan ke keranjang')"
-                >
-                  Masukkan Keranjang
-                </button>
+              <check if="{{@SESSION}}">
+                <true>
+                  <button
+                    
+                    type="button"
+                    class="button is-info is-outlined icofont-shopping-cart py-3"
+                    id="btn"
+                    
+                  >
+                    Masukkan Keranjang
+                  </button>
+                </true>
+                <false>
+                  <button
+                    type="submit"
+                    class="button is-info is-outlined icofont-shopping-cart py-3"
+                  >
+                    Masukkan Keranjang
+                  </button>
+                </false>
+              </check>
                 <a href="{{@BASE}}/checkout" class="button is-info"
                   >Beli Sekarang</a
                 >
               </div>
             </form>
           </div>
+          
         </div>
       </div>
     </div>
+  </repeat>
   </div>
 </section>
 
-<!-- Script atur kuantitas produk  -->
-<script>
-  function changeQty(amount) {
-    const qtyInput = document.getElementById("quantityInput");
-    let currentQty = parseInt(qtyInput.value);
-    if (!isNaN(currentQty)) {
-      let newQty = currentQty + amount;
-      if (newQty < 1) newQty = 1; // tidak boleh kurang dari 1
-      qtyInput.value = newQty;
-    }
-  }
-</script>
 
 <!-- for mobile -->
 <section class="section is-hidden-desktop">
@@ -425,7 +411,7 @@
             <button class="button is-light">-</button>
           </p>
           <p class="control">
-            <input class="input" type="number" value="1" min="1" />
+            <input class="input" type="number" value="1" min="1" name="quantity" />
           </p>
           <p class="control">
             <button class="button is-light">+</button>
@@ -452,11 +438,19 @@
     <hr class="m-0" />
     <div class="column is-flex">
       <div class="column is-half is-flex is-align-items-center p-0">
-        <a
-          class="button is-info is-outlined icofont-shopping-cart py-3"
-          onclick="Swal.fire('Produk telah ditambahkan ke keranjang')"
-          >Masukkan Keranjang</a
-        >
+        <check if="{{@SESSION.user}}">
+          <true>
+            <a
+              class="button is-info is-outlined icofont-shopping-cart py-3"
+              id="btn"  
+              type="submit"
+              >Masukkan Keranjang</a
+            >
+          </true>
+          <false>
+            <button class="" value="Masukkan Keranjang"></button>
+          </false>
+        </check>
       </div>
       <div class="product-actions column has-text-right buttons are-normal">
         <a href="{{@BASE}}/checkout" class="button is-info">Beli Sekarang</a>
@@ -464,7 +458,7 @@
     </div>
   </div>
 </div>
-<script src="/dist/sweetalert2.all.min.js"></script>
+
 
 <style>
   /* Custom styles to achieve the desired layout */
@@ -507,148 +501,175 @@
 </style>
 
 <script>
-  document.querySelectorAll(".variant-image").forEach((item) => {
-    item.addEventListener("click", (event) => {
-      const mainImage = document.getElementById("main-image");
-      mainImage.src = event.target.src;
-    });
+  document.querySelectorAll('.variant-image').forEach(item => {
+      item.addEventListener('click', event => {
+          const mainImage = document.getElementById('main-image');
+          mainImage.src = event.target.src;
+      });
   });
 
   if (window.matchMedia("(max-width: 1023px)").matches) {
-    // MOBILE
-    const pathArray = window.location.pathname.split("/");
-    const productId = pathArray[pathArray.length - 1];
+      // MOBILE
+      const pathArray = window.location.pathname.split('/');
+      const productId = pathArray[pathArray.length - 1];
 
-    if (productId) {
-      fetch(`/show_detail/${productId}`)
-        .then((response) => response.json())
-        .then((detail) => {
-          console.log(detail);
+      if (productId) {
+          fetch(`/detail/${productId}`)
+              .then(response => response.json())
+              .then(detail => {
+                  console.log(detail);
 
-          const product = detail[0];
-          if (product) {
-            const nama = document.getElementById("nama-produk-mobile");
-            // const gambar = document.getElementById('gambar-produk');
-            const gambar = document.querySelectorAll(".gambar-produk-mobile");
-            const harga = document.getElementById("harga-mobile");
+                  const product = detail[0];
+                  if (product) {
+                      const nama = document.getElementById('nama-produk-mobile');
+                      // const gambar = document.getElementById('gambar-produk');
+                      const gambar = document.querySelectorAll(".gambar-produk-mobile")
+                      const harga = document.getElementById('harga-mobile');
 
-            console.log(gambar);
+                      console.log(gambar)
 
-            nama.innerText = `${product.name}`;
-            gambar[0].src = `{{@BASE}}/public/images/${product.product_img}`;
-            gambar[1].src = `{{@BASE}}/public/images/${product.product_img}`;
-            harga.innerText = `${product.price}`;
-          } else {
-            console.error("Product not found");
-          }
-        })
-        .catch((error) =>
-          console.error("Error fetching product detail:", error)
-        );
-    } else {
-      console.error("Product ID not found");
-    }
-
-    var currentImg = 0;
-    var imgs = document.querySelectorAll(".slider-img-product img");
-    let dots = document.querySelectorAll(".dot");
-
-    document.getElementById(
-      "img-2-mobile"
-    ).src = `{{@BASE}}/public/images/2.jpg`;
-    document.getElementById(
-      "img-3-mobile"
-    ).src = `{{@BASE}}/public/images/3.jpg`;
-    document.getElementById(
-      "img-4-mobile"
-    ).src = `{{@BASE}}/public/images/4.jpg`;
-    document.getElementById(
-      "img-5-mobile"
-    ).src = `{{@BASE}}/public/images/5.jpg`;
-
-    function changeSlide(n) {
-      for (var i = 0; i < imgs.length; i++) {
-        imgs[i].style.display = "none";
-        dots[i].className = dots[i].className.replace(" active", "");
+                      nama.innerText = `${product.name}`;
+                      gambar[0].src = `{{@BASE}}/public/images/${product.product_img}`;
+                      gambar[1].src = `{{@BASE}}/public/images/${product.product_img}`;
+                      harga.innerText = `${product.price}`;
+                  } else {
+                      console.error('Product not found');
+                  }
+              })
+              .catch(error => console.error('Error fetching product detail:', error));
+      } else {
+          console.error('Product ID not found');
       }
 
-      currentImg = (n + imgs.length) % imgs.length;
-      imgs[currentImg].style.display = "block";
-      dots[currentImg].className += " active";
-    }
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", function () {
-        changeSlide(index);
+
+      var currentImg = 0;
+      var imgs = document.querySelectorAll('.slider-img-product img');
+      let dots = document.querySelectorAll('.dot');
+
+      document.getElementById('img-2-mobile').src = `{{@BASE}}/public/images/2.jpg`;
+      document.getElementById('img-3-mobile').src = `{{@BASE}}/public/images/3.jpg`;
+      document.getElementById('img-4-mobile').src = `{{@BASE}}/public/images/4.jpg`;
+      document.getElementById('img-5-mobile').src = `{{@BASE}}/public/images/5.jpg`;
+
+      function changeSlide(n) {
+
+          for (var i = 0; i < imgs.length; i++) {
+              imgs[i].style.display = "none";
+              dots[i].className = dots[i].className.replace(' active', '');
+          }
+
+          currentImg = (n + imgs.length) % imgs.length;
+          imgs[currentImg].style.display = "block";
+          dots[currentImg].className += ' active';
+      }
+
+      dots.forEach((dot, index) => {
+          dot.addEventListener('click', function() {
+              changeSlide(index);
+          });
       });
-    });
   } else {
-    // DESKTOP
-    const pathArray = window.location.pathname.split("/");
-    const productId = pathArray[pathArray.length - 1];
+      // DESKTOP
+      const pathArray = window.location.pathname.split('/');
+      const productId = pathArray[pathArray.length - 1];
 
-    if (productId) {
-      fetch(`/show_detail/${productId}`)
-        .then((response) => response.json())
-        .then((detail) => {
-          console.log(detail);
+      if (productId) {
+          fetch(`/detail/${productId}`)
+              .then(response => response.json())
+              .then(detail => {
+                  console.log(detail);
 
-          const product = detail[0];
-          if (product) {
-            //const nama = document.getElementById("nama-produk-desktop");
-            // const gambar = document.getElementById('gambar-produk');
-            const gambar = document.querySelectorAll(".gambar-produk-desktop");
-            //const harga = document.getElementById("harga-desktop");
+                  const product = detail[0];
+                  if (product) {
+                      const nama = document.getElementById('nama-produk-desktop');
+                      // const gambar = document.getElementById('gambar-produk');
+                      const gambar = document.querySelectorAll(".gambar-produk-desktop")
+                      const harga = document.getElementById('harga-desktop');
 
-            console.log(gambar);
+                      console.log(gambar)
 
-            nama.innerText = `${product.name}`;
-            gambar[0].src = `{{@BASE}}/public/images/${product.product_img}`;
-            gambar[1].src = `{{@BASE}}/public/images/${product.product_img}`;
-            harga.innerText = `${product.price}`;
-          } else {
-            console.error("Product not found");
-          }
-        })
-        .catch((error) =>
-          console.error("Error fetching product detail:", error)
-        );
-    } else {
-      console.error("Product ID not found");
-    }
-
-    var currentImg = 0;
-    var imgs = document.querySelectorAll(".slider-img-product img");
-    let dots = document.querySelectorAll(".dot");
-
-    document.getElementById(
-      "img-2-desktop"
-    ).src = `{{@BASE}}/public/images/2.jpg`;
-    document.getElementById(
-      "img-3-desktop"
-    ).src = `{{@BASE}}/public/images/3.jpg`;
-    document.getElementById(
-      "img-4-desktop"
-    ).src = `{{@BASE}}/public/images/4.jpg`;
-    document.getElementById(
-      "img-5-desktop"
-    ).src = `{{@BASE}}/public/images/5.jpg`;
-
-    function changeSlide(n) {
-      for (var i = 0; i < imgs.length; i++) {
-        imgs[i].style.display = "none";
-        dots[i].className = dots[i].className.replace(" active", "");
+                      nama.innerText = `${product.name}`;
+                      gambar[0].src = `{{@BASE}}/public/images/${product.product_img}`;
+                      gambar[1].src = `{{@BASE}}/public/images/${product.product_img}`;
+                      harga.innerText = `${product.price}`;
+                  } else {
+                      console.error('Product not found');
+                  }
+              })
+              .catch(error => console.error('Error fetching product detail:', error));
+      } else {
+          console.error('Product ID not found');
       }
 
-      currentImg = (n + imgs.length) % imgs.length;
-      imgs[currentImg].style.display = "block";
-      dots[currentImg].className += " active";
-    }
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", function () {
-        changeSlide(index);
+
+      var currentImg = 0;
+      var imgs = document.querySelectorAll('.slider-img-product img');
+      let dots = document.querySelectorAll('.dot');
+
+      document.getElementById('img-2-desktop').src = `{{@BASE}}/public/images/2.jpg`;
+      document.getElementById('img-3-desktop').src = `{{@BASE}}/public/images/3.jpg`;
+      document.getElementById('img-4-desktop').src = `{{@BASE}}/public/images/4.jpg`;
+      document.getElementById('img-5-desktop').src = `{{@BASE}}/public/images/5.jpg`;
+
+      function changeSlide(n) {
+
+          for (var i = 0; i < imgs.length; i++) {
+              imgs[i].style.display = "none";
+              dots[i].className = dots[i].className.replace(' active', '');
+          }
+
+          currentImg = (n + imgs.length) % imgs.length;
+          imgs[currentImg].style.display = "block";
+          dots[currentImg].className += ' active';
+      }
+
+      dots.forEach((dot, index) => {
+          dot.addEventListener('click', function() {
+              changeSlide(index);
+          });
       });
-    });
   }
 </script>
+
+<script src="/dist/sweetalert2.all.min.js">
+</script>
+
+<script>
+  const btn = document.getElementById('btn');
+  const form = document.getElementById('productForm');
+
+  // Tambahkan event listener pada button
+  btn.addEventListener('click', function() {
+    Swal.fire({
+      icon: "success",
+      title: "Produk telah ditambahkan ke keranjang belanja",
+      showConfirmButton: false,
+      timer:2000,
+      width: '600px',
+      customClass: {
+        title: 'custom-title',
+      },
+    }).then((result) => {
+      // Setelah SweetAlert ditutup, submit form secara programatis
+      if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+        form.submit();  // Submit the form programmatically
+      }
+    });
+  });
+</script>
+
+<!-- Script atur kuantitas produk  -->
+<script>
+  function changeQty(amount) {
+    const qtyInput = document.getElementById("quantityInput");
+    let currentQty = parseInt(qtyInput.value);
+    if (!isNaN(currentQty)) {
+      let newQty = currentQty + amount;
+      if (newQty < 1) newQty = 1; // tidak boleh kurang dari 1
+      qtyInput.value = newQty;
+    }
+  }
+</script>
+
