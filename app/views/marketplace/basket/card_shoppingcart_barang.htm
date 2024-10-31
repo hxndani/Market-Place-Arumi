@@ -228,8 +228,8 @@
       var totalHargaElement = document.getElementById('alltotal-price');
 
       // Fungsi untuk memilih atau membatalkan semua checkbox
-      function checkAll(myCheckbox){
-        checkboxes.forEach(function(checkbox){
+      function checkAll(myCheckbox) {
+        checkboxes.forEach(function(checkbox) {
           checkbox.checked = myCheckbox.checked;
         });
         updateTotal();
@@ -241,12 +241,16 @@
         let totalPrice = 0;
 
         productCheckboxes.forEach(function(checkbox) {
-            if (checkbox.checked) {
-                let price = parseFloat(checkbox.getAttribute('data-price'));
-                let quantity = parseInt(checkbox.getAttribute('data-quantity'));
-                totalQuantity++;
-                totalPrice += price * quantity;
-            }
+          if (checkbox.checked) {
+            let price = parseFloat(checkbox.getAttribute('data-price'));
+
+            // Ubah agar kuantitas yang dipakai bukan lagi dari data-quantity, tapi dari value yang sekarang ada di input
+            let quantityInput = checkbox.closest('tr').querySelector('.quantity-input');
+            let quantity = parseInt(quantityInput.value);
+
+            totalQuantity++;
+            totalPrice += price * quantity;
+          }
         });
 
         // Update jumlah produk dan total harga
@@ -256,7 +260,7 @@
 
       // Event listener untuk semua checkbox produk
       productCheckboxes.forEach(function(checkbox) {
-          checkbox.addEventListener('change', updateTotal);
+        checkbox.addEventListener('change', updateTotal);
       });
 
       // Jalankan sekali untuk menghitung jika ada produk yang sudah dipilih saat halaman dimuat
@@ -272,36 +276,36 @@
         if (newQuantity < 1) return 1;
 
         fetch('{{@BASE}}/cart', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({
-                action: 'update',
-                cart_id: cartId,
-                quantity: newQuantity
-            })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'update',
+            cart_id: cartId,
+            quantity: newQuantity
+          })
         })
         .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
         })
         .then(data => {
-            if (data.error) {
-                alert(data.error);
-                return;
-            }
+          if (data.error) {
+            alert(data.error);
+            return;
+          }
 
-            // Update kuantitas input
-            quantityInput.value = newQuantity;
+          // Update kuantitas input
+          quantityInput.value = newQuantity;
 
-            // Update total harga produk
-            document.getElementById(`totalHarga-${cartId}`).textContent = `Rp${(data.subtotal).toLocaleString('id-ID')}`;
+          // Update total harga produk
+          document.getElementById(`totalHarga-${cartId}`).textContent = `Rp${(data.subtotal).toLocaleString('id-ID')}`;
 
-            // Update total keseluruhan (jika ada logika tambahan yang ingin kamu masukkan di sini)
-            updateTotal();
+          // Update total keseluruhan dengan kuantitas baru
+          updateTotal();
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat mengupdate kuantitas.');
+          console.error('Error:', error);
+          alert('Terjadi kesalahan saat mengupdate kuantitas.');
         });
       }
 
@@ -311,5 +315,3 @@
       });
   });
 </script>
-
-
