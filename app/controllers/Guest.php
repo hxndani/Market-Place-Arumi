@@ -380,7 +380,9 @@ class Guest extends BaseController
         $session = $f3->get('SESSION.user');
         $user_id = $f3->get('SESSION.user_id');
         $_member = new _member($this->db);
+        $_user_address = new _user_address($this->db);
         $members = $_member->load(array('username=?', $session));
+        $address = $_user_address->getAddress($user_id);
         if (!$session) {
             $f3->reroute('/login');
         }
@@ -389,6 +391,7 @@ class Guest extends BaseController
         if(!$selected_products){
             $f3->reroute('/cart');
         }
+
         $cart = new Cart($this->db);
         $checkoutProducts = [];
         foreach ($selected_products as $productId) {
@@ -429,7 +432,8 @@ class Guest extends BaseController
 
         $f3->set('SESSION.checkout_products', $checkoutProducts);
         $f3->set('members', $members);
-    
+        $f3->set('addresses', $address);
+        // print_r($address);
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('marketplace/basket/card_checkout_barang.htm');
