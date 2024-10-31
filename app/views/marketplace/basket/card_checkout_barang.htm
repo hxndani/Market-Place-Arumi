@@ -6,11 +6,13 @@
       </h2>
       <div class="columns">
         <div class="column is-9">
-          <p><strong>rama dhanu (+62) 85624240421</strong></p>
-          <p>
-            Jalan Nakula Sadewa Raya, Kel. Dukuh, Sidomukti, KOTA SALATIGA -
-            SIDOMUKTI, JAWA TENGAH, ID 50723
-          </p>
+          <repeat group="{{@addresses}}" value="{{@address}}">
+            <p><strong>{{ @address.name }} | {{ @address.phone }}</strong></p>
+            <p>
+              {{ @address.detail }}, {{ @address.sub_district }}, {{ @address.district }}, 
+              {{@address.province}}, ID {{@address.postal}}
+            </p>
+          </repeat>
         </div>
         <div class="column is-3 has-text-right">
           <button class="button is-small is-info">Ubah</button>
