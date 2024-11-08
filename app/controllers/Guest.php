@@ -353,20 +353,66 @@ class Guest extends BaseController
 
     function pengiriman($f3)
     {
-        // if($f3->get('SESSION.level') != '1'):
-        //     $this->f3->reroute('/');
-        // else:
+        $user_id = $f3->get('SESSION.user_id');
         $_access = new _access($this->db);
         $session = $f3->get('SESSION.user');
+        $_member = new _member($this->db);
 
         if(!$session){
             $f3->reroute('/login');
         }
-        $_member = new _member($this->db);
-                
+        
+        $orders = new Orders($this->db);
+        $order = $orders->getOrders($user_id);
+        $f3->set('orders', $order);
         $_member->load(array('username=?', $session));
         $f3->set('members', $_member);
 
+        $belum_bayar = [];
+        $dibayar = [];
+        $sedang_dikemas = [];
+        $dikirim = [];
+        $selesai = [];
+        $dibatalkan = [];
+        $refund = [];
+
+        foreach($order as $item){
+
+            switch($item['status']){
+                case 0:
+                    array_push($belum_bayar, $item);
+                    break;
+                case 1:
+                    array_push($dibayar, $item);
+                    break;
+                case 2:
+                    array_push($sedang_dikemas, $item);
+                    break;
+                case 3:
+                    array_push($dikirim, $item);
+                    break;
+                case 4:
+                    array_push($selesai, $item);
+                    break;
+                case 5:
+                    array_push($dibatalkan, $item);
+                    break;
+                case 6:
+                    array_push($refund, $item);
+                    break;
+                default:
+                    array_push($belum_bayar, $item);
+                    break;
+            }
+        }
+        $f3->set('belum_bayar', $belum_bayar);
+        $f3->set('dibayar', $dibayar);
+        $f3->set('sedang_dikemas', $sedang_dikemas);
+        $f3->set('dikirim', $dikirim);
+        $f3->set('selesai', $selesai);
+        $f3->set('dibatalkan', $dibatalkan);
+        $f3->set('refund', $refund);
+        // print_r($order);
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
         echo Template::instance()->render('user/side_bar.htm');
@@ -428,11 +474,16 @@ class Guest extends BaseController
             $orders->load(array('user_id=?', $user_id));
             $orders->total_price = $total_price;
             $orders->save();
+
+            $f3->reroute('/profil');
         }
 
         $f3->set('SESSION.checkout_products', $checkoutProducts);
         $f3->set('members', $members);
         $f3->set('addresses', $address);
+        // $f3->set('order_total', $total_price);
+        $f3->set('shipping_fee', 20000); // Sesuaikan biaya pengiriman
+
         // print_r($address);
         echo Template::instance()->render('header.htm');
         echo Template::instance()->render('marketplace/dashboard/search_bar.htm');
@@ -441,10 +492,36 @@ class Guest extends BaseController
 
     }
 
-    function payment($f3)
-    {
+    function payment($f3) {
         
+        
+        $session = $f3->get('SESSION.user');
+        $user_id = $f3->get('SESSION.user_id');
+        $_member = new _member($this->db);
+        $members = $_member->load(array('username=?', $session));
+        $f3->set('members', $members);
+
+
+
+        echo Template::instance()->render('marketplace/basket/payment.htm');
+        
+        
+
     }
+
+    // function processPayment($f3) {
+    //     $orderId = $f3->get('POST.order_id');
+    //     // Proses logika pembayaran di sini (misalnya, validasi pembayaran, update status pesanan)
+    
+    //     $orders = new Orders($this->db);
+    //     $orders->load(array('id=?', $orderId));
+    //     $orders->status = 'Menunggu Pembayaran';
+    //     $orders->save();
+    
+    //     $f3->reroute('/orders');  // Arahkan user ke halaman pesanan setelah pembayaran berhasil
+    // }
+    
+    
 
     function detail_pengiriman($f3)
     {
