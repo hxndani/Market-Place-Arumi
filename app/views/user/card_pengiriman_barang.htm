@@ -1,114 +1,557 @@
-        <div class="column">
-            <div class="box" style="margin-bottom: 1vh;">
-                <div class="control has-icons-left">
-                    <span class="icon is-small is-left">
-                        <i class="icofont-search"></i>
-                    </span>
-                    <input class="input" type="text" placeholder="Kamu bisa mencari berdasarkan No.Pesanan atau Nama Produk" />
-                </div>
-            </div>
 
-            <div class="box" style="margin-bottom: 1vh;">
-                <div class="tabs is-boxed">
-                    <ul>
-                        <li class="is-active"><a>Semua</a></li>
-                        <li><a>Belum Bayar</a></li>
-                        <li><a>Sedang Dikemas</a></li>
-                        <li><a>Dikirim</a></li>
-                        <li><a>Selesai</a></li>
-                        <li><a>Dibatalkan</a></li>
-                        <li><a>Pengembalian Barang</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="box" style="margin-bottom: 1vh;">
-                <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
-                    <a href="{{@BASE}}/detail_pengiriman" class="has-text-primary is-size-7">
-                        <i class="icofont-fast-delivery"></i>
-                        Pesanan telah sampai diterima oleh Yang bersangkutan</a>
-                    <hr class="vertical-hr">
-                    <p class="is-size-7 has-text-info">SELESAI</p>
-                </div>
-                <hr class="mt-3">
-                <a class="columns">
-                    <div class="column is-2">
-                        <figure class="image is-100%x100% is-flex is-align-items-center">
-                            <img src="{{@BASE}}/public/images/2.jpg" alt="Product Image">
-                        </figure>
-                    </div>
-                    <div class="column is-6 is-flex">
-                        <div class="order-description">
-                            <p class="is-size-5 has-text-black">Cover Radiator Vario 255cc Warna Silver Metalis</p>
-                            <p class="is-size-7 has-text-grey">Variasi: Merah</p>
-                            <p class="is-size-7 has-text-black">x1</p>
-                            <span class="tag is-danger is-size-7 has-text-white">Bebas Pengembalian</span>
-                        </div>
-                    </div>
-                    <div class="column is-flex is-align-items-center level-right">
-                        <p class="has-text-link is-size-5">Rp3.069.00</p>
-                    </div>
-                </a>
-                <hr>
-                <div class="columns">
-                    <div class="column is-10 is is-flex level-right">
-                        <p class="is-size-6">Total Pesanan:</p>
-                    </div>
-                    <div class="column is-flex level-right">
-                        <p class="has-text-link is-size-4">Rp3.069.00</p>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column level-right is-flex">
-                        <a class="button is-info">Beli Lagi</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="box" style="margin-bottom: 1vh;">
-                <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
-                    <p class="is-size-7 has-text-info">DIBATALKAN</p>
-                </div>
-                <hr class="mt-3">
-                <a class="columns">
-                    <div class="column is-2">
-                        <figure class="image is-100%x100% is-flex is-align-items-center">
-                            <img src="{{@BASE}}/public/images/2.jpg" alt="Product Image">
-                        </figure>
-                    </div>
-                    <div class="column is-6 is-flex">
-                        <div class="order-description">
-                            <p class="is-size-5 has-text-black">Cover Radiator Vario 255cc Warna Silver Metalis</p>
-                            <p class="is-size-7 has-text-grey">Variasi: Biru</p>
-                            <p class="is-size-7 has-text-black">x1</p>
-                            <span class="tag is-danger is-size-7 has-text-white">Bebas Pengembalian</span>
-                        </div>
-                    </div>
-                    <div class="column is-flex is-align-items-center level-right">
-                        <p class="has-text-link is-size-5">Rp3.069.00</p>
-                    </div>
-                </a>
-                <hr>
-                <div class="columns">
-                    <div class="column is-10 is-flex level-right">
-                        <p class="is-size-6">Total Pesanan:</p>
-                    </div>
-                    <div class="column is-flex level-right">
-                        <p class="has-text-link is-size-4">Rp3.069.00</p>
-                    </div>
-                </div>
-                <div class="columns">
-                    <div class="column is-two-third is-flex level-left">
-                        <span class="is-size-7">Dibatalkan Anda</span>
-                    </div>
-                    <div class="column is-half level-right is-flex">
-                        <a class="button is-info">Beli Lagi</a>
-                    </div>
-                    <div class="column is-flex level-right">
-                        <a class="button ml-3">Tampilkan Rincian Pembatalan</a>
-                    </div>
-                </div>
+<div>
+    <div class="column box is-9" style="margin-bottom: 18px; width: 685px;">
+        <div>
+            <div class="tabs" style="margin-top: -10px;">
+                <ul class=" box is-size-6">
+                    <li class="is-active" onclick="showContent('semua')"><a>Semua</a></li>
+                    <li onclick="showContent('belumbayar')"><a>Belum Bayar</a></li>
+                    <li onclick="showContent('sedangdikemas')"><a>Sedang Dikemas</a></li>
+                    <li onclick="showContent('dikirim')"><a>Dikirim</a></li>
+                    <li onclick="showContent('selesai')"><a>Selesai</a></li>
+                    <li onclick="showContent('dibatalkan')"><a>Dibatalkan</a></li>
+                    <li onclick="showContent('pengembalian')"><a>Pengembalian Barang</a></li>
+                </ul>
             </div>
         </div>
     </div>
-</section>
+    <div id="semua" class="konten active is-9" style="margin-top: -45px; margin-left: -39px;">
+        <div class="is-9" style="width: 761px; height: 50px; margin-bottom: 0px;">
+            <div class="control has-icons-left" style="margin-top: -10px;">
+                <span class="icon is-small is-left" style="color: gray;">
+                    <i class="icofont-search"></i>
+                </span>
+                <input class="input" style="background-color: rgba(128, 128, 128, 0.1); color: gray;" type="text" placeholder="Kamu bisa mencari berdasarkan No. Pesanan atau Nama Produk" />
+            </div>
+        </div>
+        <repeat  group="{{@orders}}" value="{{@order}}">
+            <check if="{{!empty(@order)}}">
+                <true>
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <check if="{{ @order.status == 0 }}">
+                                <true>
+                                    <p class="is-size-6 has-text-info">BELUM BAYAR</p>
+                                </true>
+                            </check>
+                            <check if="{{ @order.status == 2 }}">
+                                <true>
+                                    <p class="is-size-6 has-text-info">SEDANG DIKEMAS</p>
+                                </true>
+                            </check>
+                            <check if="{{ @order.status == 3 }}">
+                                <true>
+                                    <p class="is-size-6 has-text-info">Sedang Dikirim ke Alamat Tujuan</p>
+                                </true>
+                            </check>
+                            <check if="{{ @order.status == 4 }}">
+                                <true>
+                                    <a href="{{ @BASE }}/detail_pengiriman" class="has-text-primary is-size-7">
+                                        <i class="icofont-fast-delivery"></i> Pesanan telah sampai diterima oleh Yang bersangkutan
+                                    </a>
+                                    <hr class="vertical-hr">
+                                    <p class="is-size-6 has-text-info">SELESAI</p>
+                                </true>
+                            </check>
+                            <check if="{{ @order.status == 5 }}">
+                                <true>
+                                    <p class="is-size-6 has-text-info">DIBATALKAN</p>
+                                </true>
+                            </check>
+                            <check if="{{ @order.status == 6 }}">
+                                <true>
+                                    <p class="is-size-6 has-text-info">PENGEMBALIAN BARANG</p>
+                                </true>
+                            </check>                        
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@order.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@order.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@order.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@order.price_at_purchase < @order.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@order.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@order.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                    <false>
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@order.price_at_purchase ,0,',', '.')}}</span>
+                                    </false>
+                                </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@order.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <check if="{{ @order.status == 0 }}">
+                                    <true>
+                                        <a class="button is-info" style="font-size: 13px; margin-right: 11.5px;">Bayar Sekarang</a>
+                                        <a class="button" style="margin-right: 11.5px; font-size: 13px;">Hubungi Penjual</a>
+                                        <a class="button" style="font-size: 13px;">Lainnya</a>
+                                    </true>
+                                </check>
+                                <check if="{{ @order.status == 2 }}">
+                                    <true>
+                                        <a class="button" style="margin-right: 11.5px; font-size: 13px;">Hubungi Penjual</a>
+                                        <a class="button" style="font-size: 13px;">Lainnya</a>
+                                    </true>
+                                </check>
+                                <check if="{{ @order.status == 3 }}">
+                                    <true>
+                                        <a class="button" style="margin-right: 11.5px; font-size: 13px;">Hubungi Penjual</a>
+                                        <a class="button" style="font-size: 13px;">Lainnya</a>
+                                    </true>
+                                </check>
+                                <check if="{{ @order.status == 4 }}">
+                                    <true>
+                                        <a class="button is-info" style="margin-right: 11.5px; font-size: 13px;">Nilai</a>
+                                        <a class="button" style="font-size: 13px;">Beli Lagi</a>
+                                    </true>
+                                </check>
+                                <check if="{{ @order.status == 5 }}">
+                                    <true>
+                                        <a class="button is-info" style="font-size: 13px; margin-right: 11.5px;">Beli Lagi</a>
+                                        <a class="button" style="margin-right: 11.5px; font-size: 13px;">Tampilkan Rincian Pembatalan</a>
+                                        <a class="button" style="font-size: 13px;">Hubungi Penjual</a>
+                                    </true>
+                                </check>
+                                <check if="{{ @order.status == 6 }}">
+                                    <true>
+                                        <a class="button is-info" style="font-size: 13px; margin-right: 11.5px;">Pengembalian Dana</a>
+                                        <a class="button" style="margin-right: 11.5px; font-size: 13px;">Tampilkan Rincian Pengembalian</a>
+                                        <a class="button" style="font-size: 13px;">Hubungi Penjual</a>
+                                    </true>
+                                </check>  
+                            </div>
+                        </div>
+                    </div>
+                </true>
+                <false>
+                    <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                        <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                        <p class="is-size-6">Belum ada pesanan</p>
+                    </div>
+                </false>
+            </check>
+        </repeat>
+    </div>
+
+    
+    
+    <div id="belumbayar" class="konten" style="margin-top: -28px; margin-left: -37px;width: 760px;">
+        <check if="{{ @belum_bayar }}">
+            <true>
+                <repeat group="{{ @belum_bayar}}" value="{{@item}}">
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <p class="is-size-6 has-text-info">BELUM BAYAR</p>
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@item.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@item.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@item.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@item.price_at_purchase < @item.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@item.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                        <false>
+                                            <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',', '.')}}</span>
+                                        </false>
+                                    </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@item.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <a class="button is-info" style="font-size: 13px; margin-right: 11.5px;">Bayar Sekarang</a>
+                                <a class="button" style="margin-right: 11.5px; font-size: 13px;">Hubungi Penjual</a>
+                                <a class="button" style="font-size: 13px;">Lainnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </repeat>       
+            </true>
+            <false>
+                <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                    <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                    <p class="is-size-6">Belum ada pesanan</p>
+                </div>
+            </false>
+        </check>
+    </div>
+    
+    <div id="sedangdikemas" class="konten" style="margin-top: -28px; margin-left: -37px;width: 761px;">
+        <check if="{{ @sedang_dikemas }}">
+            <true>
+                <repeat group="{{ @sedang_dikemas }}" value="{{@item}}">
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <p class="is-size-6 has-text-info">SEDANG DIKEMAS</p>
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@item.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@item.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@item.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@item.price_at_purchase < @item.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@item.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                        <false>
+                                            <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',', '.')}}</span>
+                                        </false>
+                                    </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@item.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <a class="button" style="margin-right: 11.5px; font-size: 13px;">Hubungi Penjual</a>
+                                <a class="button" style="font-size: 13px;">Lainnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </repeat>       
+            </true>
+            <false>
+                <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                    <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                    <p class="is-size-6">Belum ada pesanan</p>
+                </div>
+            </false>
+        </check>
+    </div>
+    <div id="dikirim" class="konten" style="margin-top: -28px; margin-left: -37px;width: 761px;">
+        <check if="{{ @dikirim }}">
+            <true>
+                <repeat group="{{ @dikirim }}" value="{{@item}}">
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <p class="is-size-6 has-text-info">DIKIRIM</p>
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@item.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@item.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@item.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@item.price_at_purchase < @item.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@item.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                        <false>
+                                            <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',', '.')}}</span>
+                                        </false>
+                                    </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@item.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <a class="button" style="margin-right: 11.5px; font-size: 13px;">Hubungi Penjual</a>
+                                <a class="button" style="font-size: 13px;">Lainnya</a>
+                            </div>
+                        </div>
+                    </div>
+                </repeat>       
+            </true>
+            <false>
+                <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                    <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                    <p class="is-size-6">Belum ada pesanan</p>
+                </div>
+            </false>
+        </check>
+    </div>
+
+    <div id="selesai" class="konten" style="margin-top: -28px; margin-left: -37px;width: 761px;">
+        <check if="{{ @selesai }}">
+            <true>
+                <repeat group="{{ @selesai }}" value="{{@item}}">
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <a href="{{@BASE}}/detail_pengiriman" class="has-text-primary is-size-7">
+                                    <i class="icofont-fast-delivery"></i>
+                                        Pesanan telah sampai diterima oleh Yang bersangkutan</a>
+                                    <hr class="vertical-hr">
+                                    <p class="is-size-6 has-text-info">SELESAI</p>
+                            
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@item.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@item.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@item.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@item.price_at_purchase < @item.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@item.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                        <false>
+                                            <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',', '.')}}</span>
+                                        </false>
+                                    </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@item.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <a class="button is-info" style="margin-right: 11.5px; font-size: 13px;">Nilai</a>
+                                <a class="button" style="font-size: 13px;">Beli Lagi</a>
+                            </div>
+                        </div>
+                    </div>
+                </repeat>       
+            </true>
+            <false>
+                <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                    <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                    <p class="is-size-6">Belum ada pesanan</p>
+                </div>
+            </false>
+        </check>
+    </div>
+    <div id="dibatalkan" class="konten" style="margin-top: -28px; margin-left: -37px;width: 761px;">
+        <check if="{{ @dibatalkan }}">
+            <true>
+                <repeat group="{{ @dibatalkan }}" value="{{@item}}">
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <p class="is-size-6 has-text-info">DIBATALKAN</p>
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@item.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@item.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@item.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@item.price_at_purchase < @item.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@item.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                        <false>
+                                            <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',', '.')}}</span>
+                                        </false>
+                                    </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@item.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <a class="button is-info" style="font-size: 13px; margin-right: 11.5px;">Beli Lagi</a>
+                                <a class="button" style="margin-right: 11.5px; font-size: 13px;">Tampilkan Rincian Pembatalan</a>
+                                <a class="button" style="font-size: 13px;">Hubungi Penjual</a>
+                            </div>
+                        </div>
+                    </div>
+                </repeat>       
+            </true>
+            <false>
+                <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                    <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                    <p class="is-size-6">Belum ada pesanan</p>
+                </div>
+            </false>
+        </check>
+    </div>
+
+    <div id="pengembalian" class="konten" style="margin-top: -28px; margin-left: -37px;width: 761px;">
+        <check if="{{ @refund }}">
+            <true>
+                <repeat group="{{ @refund }}" value="{{@item}}">
+                    <div class="box is-fullwidth">
+                        <div class="information level-right is-flex" style="height: 1rem; max-height: max-content;">
+                            <p class="is-size-6 has-text-info">Pengembalian Barang</p>
+                        </div>
+                        <hr class="mt-3">
+                        <a class="columns">
+                            <div class="column is-2">
+                                <figure class="image is-100%x100% is-flex is-align-items-center">
+                                    <img src="{{@BASE}}/public/images/{{@item.image}}" alt="Product Image">
+                                </figure>
+                            </div>
+                            <div class="column is-6 is-flex">
+                                <div class="order-description">
+                                    <p class="is-size-6 has-text-black">{{@item.name}}</p>
+                                    <p class="is-size-7 has-text-grey">Variasi: Silver</p>
+                                    <p class="is-size-7 has-text-black">x{{@item.quantity}}</p>
+                                </div>
+                            </div>
+                            <div class="column is-flex is-align-items-center level-right">
+                                <check if="{{@item.price_at_purchase < @item.price}}">
+                                    <true>
+                                        <span style="margin-top: 5px;" class="is-size-7"><del>Rp{{number_format(@item.price,0, ',', '.')}}</del></span>&nbsp;
+                                        <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',','.')}}</span>
+                                    </true>
+                                        <false>
+                                            <span class="has-text-link is-size-6">Rp{{number_format(@item.price_at_purchase ,0,',', '.')}}</span>
+                                        </false>
+                                    </check>
+                            </div>
+                        </a>
+                        <hr>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column is-10 is is-flex level-right">
+                                <p class="is-size-6">Total Pesanan:</p>
+                            </div>
+                            <div class="column is-flex level-right">
+                                <p class="has-text-link is-size-5">Rp{{number_format(@item.subtotal,0, ',' , '.')}}</p>
+                            </div>
+                        </div>
+                        <div class="columns" style="background-color: rgb(245, 245, 245, 0.6);">
+                            <div class="column level-right is-flex">
+                                <a class="button is-info" style="font-size: 13px; margin-right: 11.5px;">Pengembalian Dana</a>
+                                <a class="button" style="margin-right: 11.5px; font-size: 13px;">Tampilkan Rincian Pengembalian</a>
+                                <a class="button" style="font-size: 13px;">Hubungi Penjual</a>
+                            </div>
+                        </div>
+                    </div>
+                </repeat>       
+            </true>
+            <false>
+                <div class="box is-fullwidth has-text-centered" style="height: 400px; padding-top: 140px;">
+                    <i class="fa-solid fa-clipboard-list fa-4x" style="margin: 8px;"></i>
+                    <p class="is-size-6">Belum ada pesanan</p>
+                </div>
+            </false>
+        </check>
+    </div>
+    
+    <script>
+        function showContent(sectionId) {
+            var contents = document.querySelectorAll('.konten');
+            var tabs = document.querySelectorAll('ul li'); // Pilih semua tab <li>
+    
+            // Hapus 'active' dari semua konten
+            contents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+    
+            // Tampilkan konten yang dipilih
+            document.getElementById(sectionId).classList.add('active');
+    
+            // Hapus 'is-active' dari semua tab
+            tabs.forEach(function(tab) {
+                tab.classList.remove('is-active');
+            });
+    
+            // Tambahkan 'is-active' pada tab yang diklik
+            var currentTab = document.querySelector(`li[onclick="showContent('${sectionId}')"]`);
+            currentTab.classList.add('is-active');
+        }
+    
+    </script>
+    
+    </div>
+    </section>
