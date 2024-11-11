@@ -265,28 +265,26 @@ class Guest extends BaseController
         $_member->load(array('username=?', $session));
     
         // cek apakah ada submit dari tombol simpan
-        if ($f3->exists('POST.submit')) {
-            $nama_file = null;
-            // cek apakah ada file yang diupload
+        if ($f3->exists('POST.submit') || $f3->get('AJAX')) {
+            // $nama_file = null;
             if ($_FILES['gambar']['error'] !== 4) {
                 $nama_file = $_FILES['gambar']['name'];
                 $tmp_name = $_FILES['gambar']['tmp_name'];
                 $error = $_FILES['gambar']['error'];
                 $ukuran_file = $_FILES['gambar']['size'];
-    
-                // Proses upload gambar
-                $upload_result = $_member->uploadGambar($f3, $session, $nama_file, $tmp_name, $error, $ukuran_file);
+        
+                $nama_file_baru = $_member->uploadGambar($f3, $session, $nama_file, $tmp_name, $error, $ukuran_file);
+                // $_member->load(array('username=?', $session));
             }
-    
+        
             $update_name = $f3->get('POST.name');
             $update_phone = $f3->get('POST.phone');
             $update_gender = $f3->get('POST.gender');
             $update_email = $f3->get('POST.email');
             $update_tanggal_lahir = $f3->get('POST.tanggal_lahir');
-    
+        
             $_member->updateProfile($session, $update_name, $update_phone, $update_gender, $update_email, $update_tanggal_lahir);
-    
-            // Cek apakah request dari AJAX
+        
             if ($f3->get('AJAX')) {
                 echo json_encode([
                     'success' => true,
@@ -295,15 +293,12 @@ class Guest extends BaseController
                     'gender' => $update_gender,
                     'email' => $update_email,
                     'tanggal_lahir' => $update_tanggal_lahir,
-                    'gambar' => $nama_file ? $nama_file : null // Kirim nama gambar jika diupload
+                    'gambar' => $nama_file_baru ? $nama_file_baru : $_member->gambar // Pastikan kirim nama file gambar terbaru
                 ]);
                 return;
             }
-    
-            // Jika bukan AJAX, lakukan proses reload biasa
-            $_member->load(array('username=?', $session));
-        }
-    
+        }        
+        $_member->load(array('username=?', $session));
         // Jika tidak ada submit dari tombol simpan
         $f3->set('members', $_member);
         echo Template::instance()->render('header.htm');
