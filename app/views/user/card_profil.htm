@@ -8,7 +8,7 @@
                 <div class="field">
                 <label class="label">Username</label>
                     <div class="control"> 
-                        <input  class="input" type="text" value="{{@members.username}}">
+                        <input  class="input" type="text" value="{{@members.username}}" disabled>
                         <span class="has-text-danger has-text-weight-bold is-italic is-size-7">*username tidak dapat diubah
                         </span>
                     </div>
@@ -81,14 +81,14 @@
         
                 <div class="field">
                     <div class="control">
-                        <button type="button" id="updateProfile" name="submit" class="button is-info">Simpan</button>
+                        <button type="submit" id="updateProfile" name="submit" class="button is-info">Simpan</button>
                     </div>
                 </div>
             </div>
                     <div class="column is-one-quarter">
                         <div class="has-text-centered">
                             <figure class="image is-96x96 is-inline-block">
-                                <img src="{{@BASE}}/public/images/uploadedFile/{{@members.gambar}}" alt="Profile Picture" class="is-rounded">
+                                <img id="profileImage" src="{{@BASE}}/public/images/uploadedFile/{{@members.gambar}}" alt="Profile Picture" class="is-rounded">
                             </figure>
                             <input class="submit" type="file" name="gambar"></input>
                                 <p class="mt-2">Ukuran gambar: maks. 1 MB</p>
@@ -107,38 +107,35 @@
 </section>
 
 <script>
-    $('#form-profil').on('submit', function(e) {
+    $('#profileForm').on('submit', function(e) {
     e.preventDefault(); // Mencegah form reload
 
     var formData = new FormData(this); // Menggunakan FormData untuk menangani file upload
 
     $.ajax({
-        url: '/profil', // URL ke controller profil
-        type: 'POST',
-        data: formData,
-        contentType: false, // Harus false untuk FormData
-        processData: false, // Harus false untuk FormData
-        success: function(response) {
-            var data = JSON.parse(response);
-            if (data.success) {
-                // Update tampilan profil jika berhasil
-                $('#profil-nama').text(data.name);
-                $('#profil-email').text(data.email);
-                $('#profil-phone').text(data.phone);
-                $('#profil-gender').text(data.gender);
-                $('#profil-tanggal_lahir').text(data.tanggal_lahir);
-
-                if (data.gambar) {
-                    $('#profil-gambar').attr('src', '/public/images/uploadedFile/' + data.gambar);
-                }
-            } else {
-                alert('Gagal menyimpan profil');
+    url: '/profil',
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: 'json', // Tambahkan ini untuk memastikan respons JSON
+    success: function(response) {
+    if (response.success) {
+            // Perbarui teks profil lain
+            $('#name').text(response.name);
+            // Jika ada gambar baru, update src gambar profil dengan parameter unik
+            if (response.gambar) {
+                $('#profileImage').attr('src', '/public/images/uploadedFile/' + response.gambar + '?' + new Date().getTime());
+                $('#headerIconImage').attr('src', '/public/images/uploadedFile/' + response.gambar + '?' + new Date().getTime());
             }
-        },
-        error: function(xhr, status, error) {
-            console.log('Error: ' + xhr.responseText);
         }
-    });
+    },
+
+    error: function(xhr, status, error) {
+        console.log('Error: ' + xhr.responseText);
+    }
+});
+
 });
 
 </script>
@@ -151,23 +148,20 @@
   
     // Tambahkan event listener pada button
     btn.addEventListener('click', function() {
-      Swal.fire({
+    Swal.fire({
         icon: "success",
         title: "Profil telah berhasil diubah",
         showConfirmButton: false,
-        timer:3000,
+        timer: 3000,
         width: '600px',
         customClass: {
-          title: 'custom-title',
+            title: 'custom-title',
         },
-      }).then((result) => {
-        // Setelah SweetAlert ditutup, submit form secara programatis
+    }).then((result) => {
         if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-          form.submit();  // Submit the form programmatically
+            // Gunakan jQuery untuk submit form
+            $('#profileForm').submit();
         }
-      });
     });
-  </script>
-    
-    
-    
+});
+</script>
