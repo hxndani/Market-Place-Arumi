@@ -14,26 +14,8 @@ class _member extends DB\SQL\Mapper {
         return $this->dry() ? null : $this->cast(); // Mengembalikan data sebagai array
     }
 
-
-    public function updateProfile($session, $update_name, $update_phone, $update_gender, $update_email, $update_tanggal_lahir) {
-        $_member = new _member($this->db);
-        $_member->load(array('username=?', $session));
-
-        // // $_member->username = $update_username;
-        $_member->email = $update_email;
-        $_member->name = $update_name;
-        $_member->phone = $update_phone;
-        // $_member->toko = $update_toko;
-        // $_member->gambar = $nama_file_baru;
-        $_member->gender = $update_gender;
-        $_member->tanggal_lahir = $update_tanggal_lahir;
-        $_member->update();
-        
-    }
-
     public function uploadGambar($f3, $session, $nama_file, $tmp_name, $error, $ukuran_file) {
-        $_member = new _member($this->db);
-        $_member->load(array('username=?', $session));
+        $this->load(array('username=?', $session));
     
         $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
         $ekstensiGambar = explode('.', $nama_file);
@@ -42,19 +24,34 @@ class _member extends DB\SQL\Mapper {
         if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
             $f3->set('error', 'Please upload a valid file (JPG/JPEG/PNG)!');
             return false;
-        } else if ($ukuran_file > 1000000) { // Ubah ukuran ke maksimal 1 MB
+        } else if ($ukuran_file > 1000000) {
             $f3->set('error', 'Ukuran file terlalu besar!');
             return false;
         }
     
-        // Buat nama file baru
         $nama_file_baru = uniqid() . '.' . $ekstensiGambar;
-        move_uploaded_file($tmp_name, 'public/images/uploadedFile/' . $nama_file_baru);
+        $uploadSuccess = move_uploaded_file($tmp_name, 'public/images/uploadedFile/' . $nama_file_baru);
     
-        $_member->gambar = $nama_file_baru; // Simpan nama file baru ke database
-        $_member->update();
+        if (!$uploadSuccess) {
+            error_log("Failed to move uploaded file to destination.");
+            return false;
+        }
     
-        return $nama_file_baru; // Kembalikan nama file baru
+        $this->gambar = $nama_file_baru;
+        $this->update();
+        error_log("File uploaded successfully with new name: " . $nama_file_baru);
+        return $nama_file_baru;
     }
     
+    public function updateProfile($session, $update_name, $update_phone, $update_gender, $update_email, $update_tanggal_lahir) {
+        $this->load(array('username=?', $session));
+        $this->email = $update_email;
+        $this->name = $update_name;
+        $this->phone = $update_phone;
+        $this->gender = $update_gender;
+        $this->tanggal_lahir = $update_tanggal_lahir;
+        $this->update();
+
+        return $this->update();
+    } 
 }
