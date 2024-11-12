@@ -931,3 +931,76 @@ div.sticky.box{
 .option{
   margin-top: 5px;
 }
+
+* Alamat2 Profil*/
+.input-container2 {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.input-menu2 .tabs {
+display: none;
+}
+
+.input-menu2.active .tabs {
+display: block;
+background-color: none;
+}
+
+.option-input2.active {
+display: block; /* Tampilkan konten yang aktif */
+margin: 0px;
+-webkit-tap-highlight-color: transparent;
+background-color: white;
+}
+
+.option-input2{
+display: none;
+overflow-y: auto;
+max-height: 40vh;
+width: 100%;
+z-index: 1;
+padding: 8px;
+background: none;
+
+}
+
+.option-input2 div{
+cursor: pointer;
+background: none;
+outline: none;
+-webkit-tap-highlight-color: transparent;
+}
+
+.input-menu2{
+background-color: white;
+}
+
+.option:hover {
+background-color: rgba(200, 200, 200, 0.5);
+}
+
+.input-options2{
+display: none;
+}
+
+.input-options2.active{
+display: block;
+}
+
+.disabled-tab {
+cursor: not-allowed;
+pointer-events: none; /* Agar elemen tidak bisa diklik */
+}
+
+.input-options2.active {
+display: block;
+}
+
+.input-menu2.input-options2{
+position: absolute;
+z-index: 1000;
+margin-left: -2.6vw;
+width: 100%;
+}
