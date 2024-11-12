@@ -793,3 +793,46 @@ div.sticky.box{
 /* .image{
   float:left
 } */
+
+/* list menu */
+.sidebar a {
+  display: block;
+  padding: 6px;
+  text-decoration: none;
+  color: black;
+}
+
+.sub-sidebar {
+  display: none; /* Sembunyikan sub-sidebar secara default */
+  margin-left: 20px; /* Menambahkan indentasi untuk sub-menu */
+  text-decoration: none;
+  background: none;
+}
+
+.sub-sidebar a {
+  display: block;
+  padding: 6px 8px;
+  text-decoration: none;
+  background: none;
+}
+
+/* Active state for main and sub-sidebar links */
+.sidebar a.active,
+.sub-sidebar a.active {
+  color: #d9292b;
+  background: none;
+}
+
+/* Display active sub-sidebar */
+.sub-sidebar.active {
+  display: block;
+  color: #d9292b;
+}
+
+#sub1{
+  display: none;
+}
+
+#sub2{
+  display: none;
+}
