@@ -836,3 +836,98 @@ div.sticky.box{
 #sub2{
   display: none;
 }
+
+/* Alamat */
+.input-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    padding-right: 30px; /* Ruang untuk ikon di sebelah kanan */
+    box-sizing: border-box;
+}
+
+.input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+}
+
+.input-menu .tabs {
+  display: none;
+}
+
+.input-menu.active .tabs {
+  display: block;
+  background-color: none;
+}
+
+.option-input.active {
+  display: block; /* Tampilkan konten yang aktif */
+  margin: 0px;
+  -webkit-tap-highlight-color: transparent;
+  background-color: white;
+}
+
+.option-input{
+  display: none;
+  overflow-y: auto;
+  max-height: 40vh;
+  width: 100%;
+  z-index: 1;
+  padding: 8px;
+  background: none;
+}
+
+.option-input div{
+  cursor: pointer;
+  background: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.input-menu{
+  background-color: white;
+}
+
+.option:hover {
+ background-color: rgba(200, 200, 200, 0.5);
+}
+
+.input-options{
+  display: none;
+}
+
+.input-options.active{
+  display: block;
+}
+
+.disabled-tab {
+  cursor: not-allowed;
+  pointer-events: none; /* Agar elemen tidak bisa diklik */
+}
+
+.input-options {
+  display: none;
+}
+
+.input-options.active {
+  display: block;
+}
+
+.input-menu.input-options{
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  margin-left: -32px;
+}
+
+.option{
+  margin-top: 5px;
+}
