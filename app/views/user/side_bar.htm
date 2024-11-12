@@ -1,42 +1,131 @@
 <section class="section grey">
-    <div class="container column is-9">
+    <div class="container column is-9 mainbar">
         <div class="columns">
             <div class="column is-one-quarter">
-                <aside class="menu">
-                    <ul class="menu-list">
-                        <li id="profil" class="has-submenu">
-                            <a><i class="icofont-user-alt-6 has-text-link"></i>
-                            Akun Saya</a>
-                            <ul>
-                                <li><a href="{{@BASE}}/profil">Profil</a></li>
-                                <li><a href="{{@BASE}}/bank">Bank dan Kartu</a></li>
-                                <li><a href="{{@BASE}}/alamat">Alamat</a></li>
-                                <li><a>Ubah Password</a></li>
-                                <li><a href="{{@BASE}}/pengaturan_notifikasi">Pengaturan Notifikasi</a></li>
-                                <li><a>Pengaturan Privasi</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{{@BASE}}/pengiriman">
-                            <i class="icofont-vehicle-delivery-van has-text-primary"></i>Pesanan Saya</a></li>
-                        <li id="notifikasi" class="has-submenu">
-                            <a><i class="icofont-notification has-text-warning"></i>
-                                Notifikasi</a>
-                            <ul>
-                                <li><a>Status Pesanan</a></li>
-                                <li><a>Promo Arumi</a></li>
-                                <li><a>Info Arumi</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{{@BASE}}/voucher"><i class="icofont-ticket has-text-danger"></i>Voucher Saya</a></li>
-                    </ul>
+                <div class="profile-container">
+                    <img src="/public/images/profil.webp" alt="Profile" class="change-profil">
+                    <a class="change-profil is-size-6" >{{ @SESSION.user }}</a>
+                    <a href="{{@BASE}}/profil" class="is-size-6"><h3>Ubah Profil</h3></a>
+                </div>
+                <br>
+                <aside class="menu is-size-6">
+                    <div class="sidebar" style="font-weight: 500;">
+                        <a id="akunsaya" onclick="navigate('akunsaya');">Akun Saya</a>
+                        <div class="sub-sidebar" id="sub1" style="font-weight: 400; display: none;">
+                            <a id="profil" onclick="subNavigate('profil');">Profil</a>
+                            <a id="bank" onclick="subNavigate('bank');">Bank dan Kartu</a>
+                            <a id="alamat" onclick="subNavigate('alamat');">Alamat</a>
+                            <a id="notifikasi" onclick="subNavigate('pengaturan_notifikasi');">Pengaturan Notifikasi</a>
+                            <a id="privasi" onclick="subNavigate('privasi');">Pengaturan Privasi</a>
+                        </div>
+                
+                        <a id="pengiriman" onclick="navigate('pengiriman');">Pesanan Saya</a>
+                        <a id="notif" onclick="navigate('notif');">Notifikasi</a>
+                        <div class="sub-sidebar" id="sub2" style="font-weight: 400; display: none;">
+                            <a id="status" onclick="subNavigate('status');">Status Pesanan</a>
+                            <a id="promo" onclick="subNavigate('promo');">Promo Arumi</a>
+                            <a id="info" onclick="subNavigate('info');">Info Arumi</a>
+                        </div>
+                
+                        <a id="voucher" onclick="navigate('voucher');">Voucher Saya</a>
+                    </div>
                 </aside>
             </div>
+            
+                <script>
+                // Fungsi utama untuk menavigasi dan memuat konten sidebar
+                function navigate(id) {
+                    const url = `/${id}`;
+                
+                    if (id === 'akunsaya' || id === 'notif') {
+                        highlightActive(id);
+                    } else {
+                        fetch(url)
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('content').innerHTML = data;
+                                highlightActive(id);
+                                window.history.pushState({}, '', url);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    }
+                }
+                
+                // Fungsi untuk navigasi sub-sidebar
+                function subNavigate(subId) {
+                    const url = `/${subId}`;
+                
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('content').innerHTML = html;
+                            highlightActive(subId);
+                            window.history.pushState({}, '', url);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+                
+                // Fungsi untuk mengatur elemen sidebar/sub-sidebar yang aktif
+                function highlightActive(activeId) {
+                    const sidebars = document.querySelectorAll('.sidebar a');
+                    const subSidebars = document.querySelectorAll('.sub-sidebar a');
+                
+                    // Hapus kelas 'active' dari semua elemen sidebar dan sub-sidebar
+                    sidebars.forEach(link => link.classList.remove('active'));
+                    subSidebars.forEach(link => link.classList.remove('active'));
+                
+                    // Tambahkan kelas 'active' pada elemen yang dipilih
+                    const activeLink = document.getElementById(activeId);
+                    if (activeLink) activeLink.classList.add('active');
+                
+                    // Tentukan ID sub-sidebar yang relevan
+                    const subSidebarId = (activeId === 'akunsaya') ? 'sub1' : (activeId === 'notif') ? 'sub2' : null;
+                    // Tampilkan ('block') sub-sidebar jika ('none') dan kembalikan ('none')
+                    if (subSidebarId) {
+                    const subSidebarElement = document.getElementById(subSidebarId);
+                        if (subSidebarElement.style.display === 'none'){
+                            subSidebarElement.style.display = 'block';
+                        } else {
+                            subSidebarElement.style.display = 'none';
+                        }
+                    }
+                    toggleSubSidebar(subSidebarIdd);
+                }
+                
+                
 
-            <script>
-                document.getElementById('profil').addEventListener('click', function() {
-                    this.classList.toggle('active');
-                });
-                document.getElementById('notifikasi').addEventListener('click', function() {
-                    this.classList.toggle('active');
-                });
-            </script>
+                // Fungsi untuk mengatur visibilitas sub-sidebar
+                function toggleSubSidebar(subSidebarIdd) {
+                    document.querySelectorAll('.sub-sidebar a').forEach(sub => {
+                        if (sub.id === subSidebarId) {
+                            // Tetap tampilkan sub-sidebar yang relevan
+                            sub.style.display = 'block';
+                        } else {
+                            // Sembunyikan sub-sidebar lainnya
+                            sub.style.display = 'none';
+                        }
+                    });
+                }
+
+                function subNavigate(subId) {
+                    const url = `/${subId}`;
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('content').innerHTML = html;
+                            const activeLink = document.getElementById(subId);
+                            if (activeLink) {
+                                activeLink.classList.add('active'); // Tetapkan kelas 'active' hanya untuk elemen sub-sidebar
+                            }
+                            window.history.pushState({}, '', url);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+                </script>
+                
